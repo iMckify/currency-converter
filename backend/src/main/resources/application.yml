@@ -1,18 +1,22 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/lbDB?useSSL=false
+#    url: jdbc:h2:file:~/h2/lbDB
+    url: jdbc:h2:mem:lbDB
     username: root
     password:
+    driverClassName: org.h2.Driver
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.H2Dialect
 
   # Hibernate ddl auto (create, create-drop, validate, update)
     hibernate:
-      ddl-auto: none # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create-drop # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
+
+  h2:
+    console:
+      enabled: true
 
   # for remote access change server.address from localhost to 0.0.0.0
 server:

@@ -35,8 +35,8 @@ public class ForexAdapter {
     @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
 
-    @Scheduled(cron = "0 0/3 15-22 ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
-    @PostConstruct
+//    @Scheduled(cron = "0 0/3 15-22 ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
+    @Scheduled(cron = "*/20 * * ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
     private void updateFxRates() {
         logger.info("Executing scheduled task {}()", new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -80,7 +80,7 @@ public class ForexAdapter {
                 toSave.add(cfx);
             } else {
                 CurrentFxRate rateStored = opt.get();
-                if (!cfx.getValue().equals(rateStored.getValue())) {
+                if (!cfx.getValue().setScale(8, BigDecimal.ROUND_FLOOR).equals(rateStored.getValue())) {
                     toSave.add(cfx);
                     toDelete.add(rateStored.getID());
                 }
@@ -91,10 +91,9 @@ public class ForexAdapter {
             List<CurrentFxRate> deleteList = stored.stream().filter(s -> toDelete.contains(s.getID())).collect(Collectors.toList());
             this.currentFxRatesRepo.deleteAll(deleteList);
 
+            toSave = toSave.stream().peek(x -> x.setValue(x.getValue().setScale(8, BigDecimal.ROUND_FLOOR))).collect(Collectors.toList());
             this.currentFxRatesRepo.saveAll(toSave);
         }
-
-        System.out.println();
     }
 
     private InputStream get(String url) {

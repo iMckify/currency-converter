@@ -19,7 +19,7 @@ public class Converter {
     @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
 
-    @PostConstruct
+//    @PostConstruct
     private void execute() {
         logger.info("Executing task {}()", new Object(){}.getClass().getEnclosingMethod().getName());
 

@@ -19,6 +19,6 @@ public class CurrentFxRate {
     @Column(name = "symbol")
     private String symbol;
 
-    @Column(name = "value")
+    @Column(name = "value", precision = 16, scale = 8)
     private BigDecimal value;
 }

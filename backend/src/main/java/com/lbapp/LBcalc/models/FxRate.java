@@ -2,11 +2,13 @@ package com.lbapp.LBcalc.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import lombok.Data;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @ToString
 public class FxRate {
     @JsonProperty("Tp")

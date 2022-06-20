@@ -10,7 +10,7 @@ spring:
 
   # Hibernate ddl auto (create, create-drop, validate, update)
     hibernate:
-      ddl-auto: create # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
+      ddl-auto: none # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -24,6 +24,6 @@ server:
   # external APIs
 api:
   lb:
-    fxrates: [
+    forex: [
         "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu",
     ]

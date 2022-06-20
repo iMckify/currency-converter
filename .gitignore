@@ -1,0 +1,8 @@
+# Project exclude paths
+/backend/.mvn/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

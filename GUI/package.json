@@ -1,0 +1,72 @@
+{
+  "name": "gui",
+  "description": "GUI",
+  "version": "0.0.2",
+  "private": true,
+  "license": "MIT",
+  "keywords": [],
+  "dependencies": {
+    "@date-io/date-fns": "^2.14.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/lab": "^5.0.0-alpha.71",
+    "@mui/material": "^5.4.4",
+    "@mui/styles": "^5.4.4",
+    "@mui/x-date-pickers": "^5.0.0-alpha.4",
+    "axios": "^0.21.1",
+    "bootstrap": "4.0.0-alpha.6",
+    "date-fns": "^2.28.0",
+    "jquery": "^3.2.1",
+    "jwt-decode": "^2.2.0",
+    "lightweight-charts": "^3.8.0",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.7.2",
+    "protobufjs": "^6.11.2",
+    "react": "17.0.2",
+    "react-bootstrap-table-next": "^4.0.3",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux": "^3.7.0",
+    "redux-form": "^8.3.7",
+    "redux-thunk": "^2.3.0",
+    "toastr": "^2.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "prettier": "^2.2.1",
+    "react-scripts": "^5.0.0"
+  },
+  "scripts": {
+    "3000": "BROWSER=none PORT=3000 react-scripts start",
+    "linux": "sudo setcap 'cap_net_bind_service=+ep' `which node`",
+    "start": "PORT=80 react-scripts start",
+    "startWin": "set PORT=80 && react-scripts start",
+    "build": "BUILD_PATH='../target' DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "buildToApache": "react-scripts build && sudo mv build/* /var/www/html/",
+    "lint": "./node_modules/.bin/eslint --fix --ext js src",
+    "test": "react-scripts test --env=jsdom",
+    "coverage": "react-scripts test --env=jsdom --coverage",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "prettier",
+    "react-app"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "prettier",
+    "import",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "import/no-mutable-exports": "warn",
+    "import/prefer-default-export": "off",
+    "import/no-named-as-default": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-access-state-in-setstate": "warn",
+    "no-use-before-define": "off",
+    "no-param-reassign": "off",
+    "react/forbid-prop-types": "off",
+    "react/require-default-props": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "trailingComma": "es5",
+        "semi": false,
+        "jsxSingleQuote": true,
+        "singleQuote": true,
+        "useTabs": true
+      }
+    ],
+    "func-names": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-underscore-dangle": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "radix": "off",
+    "no-restricted-globals": "off",
+    "class-methods-use-this": "off",
+    "default-param-last": "off",
+    "no-plusplus": "off",
+    "no-continue": "off",
+    "prefer-destructuring": ["error", {"object": true, "array": false}],
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/no-array-index-key": "off"
+  },
+  "globals": {
+    "fetch": "writable",
+    "document": "writable",
+    "window": "writable",
+    "localStorage": true
+  }
+}

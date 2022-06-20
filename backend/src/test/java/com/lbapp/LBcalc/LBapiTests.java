@@ -71,4 +71,15 @@ public class LBapiTests {
 		assertTrue(list.size() > 0);
 	}
 
+	@Test
+	public void current_bad_url_return_empty () {
+		String url = "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=randomstring";
+
+		InputStream inputStream = get(url);
+		List<FxRate> list = parse(inputStream);
+
+		list.forEach(System.out::println);
+		assertEquals(0, list.size());
+	}
+
 }

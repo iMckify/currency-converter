@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/lbDB?useSSL=false
+    username: root
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: create # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  # for remote access change server.address from localhost to 0.0.0.0
+server:
+  address: 0.0.0.0
+  port: 8080
+  error:
+    include-message: always
+
+  # external APIs
+api:
+  lb:
+    fxrates: [
+        "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu",
+    ]

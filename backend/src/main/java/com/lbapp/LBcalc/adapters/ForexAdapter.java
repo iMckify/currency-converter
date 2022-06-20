@@ -15,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -34,8 +35,7 @@ public class ForexAdapter {
     @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
 
-    //@Scheduled(cron = "@weekly")
-    // unknown LB api update frequency
+    @Scheduled(cron = "0 0/3 15-22 ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
     @PostConstruct
     private void updateFxRates() {
         logger.info("Executing scheduled task {}()", new Object(){}.getClass().getEnclosingMethod().getName());

@@ -1,3 +1,11 @@
+.MuiSelect-outlined:focus {
+    padding: 0px 14px;
+}
+
+.MuiButtonBase-root:focus {
+    outline: unset;
+}
+
 .navHeight {
     height: 50px;
 }

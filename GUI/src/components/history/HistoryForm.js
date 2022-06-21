@@ -12,7 +12,7 @@ import CrudApi from "../../api/CrudApi";
 export class HistoryForm extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = { dateFrom: new Date(), dateTo: new Date(), symbols: [], symbol: 'EURUSD' }
+		this.state = { dateFrom: new Date(), dateTo: new Date(), symbols: [], selectedSymbol: null }
 	}
 
 	componentDidMount() {
@@ -40,7 +40,7 @@ export class HistoryForm extends React.Component {
 	}
 
 	render() {
-		const { dateFrom, dateTo, symbols, symbol } = this.state
+		const { dateFrom, dateTo, symbols, selectedSymbol } = this.state
 		const header = 'History'
 
 		const optionKey = 'symbol'
@@ -49,19 +49,15 @@ export class HistoryForm extends React.Component {
 			<div className='container'>
 				<h1>{header}</h1>
 				<form onSubmit={this.handleSave}>
+
 					<div className='form-group'>
-						<label>Company</label>
+						<label>Symbol</label>
 						<Autocomplete
-							autoSelect
-							value={symbol}
+							// autoSelect
+							value={selectedSymbol}
 							loading={symbols.length === 0}
 							options={symbols}
-							getOptionLabel={(option) => {
-								if (option !== '') {
-									return `${option[optionKey]} | ${option.value}`
-								}
-								return ''
-							}}
+							getOptionLabel={(option) => option[optionKey]}
 							renderOption={(props, option) => (
 								<li {...props} style={{ justifyContent: 'space-between' }}>
 									<div className='mr-5'>{option[optionKey]}</div>
@@ -71,16 +67,7 @@ export class HistoryForm extends React.Component {
 								</li>
 							)}
 							onChange={(e, val) => {
-								this.setState({ symbol: val.symbol })
-							}}
-							isOptionEqualToValue={(option, val) => {
-								if (option[optionKey] || val[optionKey]) {
-									return (
-										option[optionKey] === val[optionKey] ||
-										option[optionKey] === symbol
-									)
-								}
-								return option === val || option === symbol
+								this.setState({ selectedSymbol: val })
 							}}
 							style={{ width: 400 }}
 							renderInput={(params) => (
@@ -88,7 +75,7 @@ export class HistoryForm extends React.Component {
 									{...params}
 									variant='outlined'
 									InputLabelProps={{ shrink: false }}
-									label={symbol || params.inputProps.value ? ' ' : 'Symbol'}
+									label={selectedSymbol?.[optionKey] ? ' ' : 'Search Symbol...'}
 									sx={{
 										'& label': {
 											'&.Mui-focused': {

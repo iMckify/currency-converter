@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import ShowChartIcon from '@mui/icons-material/ShowChart';
 import BootstrapTable from 'react-bootstrap-table-next'
 import Toolbar from '@mui/material/Toolbar'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -30,12 +28,6 @@ class WatchlistTable extends React.Component {
 		this.props.history.push(`/chart/${symbol}`)
 	}
 
-	formatter = (cell, row, rowIndex, formatExtraData) => (
-		<IconButton onClick={(e) => this.handleOpenChart(e, row)}>
-			<ShowChartIcon />
-		</IconButton>
-	)
-
 	render() {
 		const { quotes } = this.state
 
@@ -58,15 +50,6 @@ class WatchlistTable extends React.Component {
 				text: 'Price',
 			},
 		]
-
-		columns.push({
-			dataField: 'remove',
-			text: 'Remove',
-			headerAttrs: {
-				hidden: true,
-			},
-			formatter: this.formatter,
-		})
 
 		// const mappedQuotes = quotes.map(q => ({...q, value: Math.round(q.value.toFixed(6) * 100000) / 100000}))
 

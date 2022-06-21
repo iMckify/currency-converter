@@ -60,6 +60,10 @@ class NavBar extends React.Component {
 				name: 'Home',
 				to: '/',
 			},
+			{
+				name: 'History',
+				to: '/history',
+			},
 		]
 
 		const navInLine = navContent.map((obj, i) => {

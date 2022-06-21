@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 import BootstrapTable from 'react-bootstrap-table-next'
 import Toolbar from '@mui/material/Toolbar'
 import CrudApi from '../../api/CrudApi'
@@ -36,9 +36,9 @@ class WatchlistTable extends React.Component {
 		// )
 	}
 
-	removeFormatter = (cell, row, rowIndex, formatExtraData) => (
+	formatter = (cell, row, rowIndex, formatExtraData) => (
 		<IconButton onClick={(e) => this.handleRemoveCompanyFromWatchlist(e, row)}>
-			<RemoveCircleOutlineIcon />
+			<ShowChartIcon />
 		</IconButton>
 	)
 
@@ -71,9 +71,10 @@ class WatchlistTable extends React.Component {
 			headerAttrs: {
 				hidden: true,
 			},
-			formatter: this.removeFormatter,
+			formatter: this.formatter,
 		})
 
+		// const mappedQuotes = quotes.map(q => ({...q, value: Math.round(q.value.toFixed(6) * 100000) / 100000}))
 
 		return (
 			<div>

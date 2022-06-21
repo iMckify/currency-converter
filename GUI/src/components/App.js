@@ -9,7 +9,7 @@ import HomeWindow from './common/HomeWindow'
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component {
 	render() {
-		const drawerWidth = 280
+		const drawerWidth = 320
 
 		return (
 			<BrowserRouter>

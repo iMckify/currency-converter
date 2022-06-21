@@ -1,3 +1,7 @@
+fieldset legend {
+    width: unset;
+}
+
 .MuiSelect-outlined:focus {
     padding: 0px 14px;
 }

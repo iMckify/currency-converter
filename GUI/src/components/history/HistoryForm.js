@@ -112,7 +112,7 @@ export class HistoryForm extends React.Component {
 							type='submit'
 							color='primary'
 							variant='contained'
-							disabled={ dateFrom.getTime() > dateTo.getTime() }
+							disabled={ dateFrom.getTime() > dateTo.getTime() || !selectedSymbol }
 							startIcon={<ShowChartIcon style={{ marginRight: -5 }} />}
 						>
 							View Prices

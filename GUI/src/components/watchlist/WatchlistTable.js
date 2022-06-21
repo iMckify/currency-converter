@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import BootstrapTable from 'react-bootstrap-table-next'
 import Toolbar from '@mui/material/Toolbar'
+import CircularProgress from '@mui/material/CircularProgress'
 import CrudApi from '../../api/CrudApi'
 
 class WatchlistTable extends React.Component {
@@ -24,20 +25,13 @@ class WatchlistTable extends React.Component {
 			})
 	}
 
-	handleRemoveCompanyFromWatchlist = (e, row) => {
-		const companiesID = row.id
-		const { watchlistsID } = row
-
-		// this.props.action.removeWatchlistCompanyActionChain(
-		// 	'Watchlists',
-		// 	companiesID,
-		// 	watchlistsID,
-		// 	// auth.user.id
-		// )
+	handleOpenChart = (e, row) => {
+		const { symbol } = row
+		this.props.history.push(`/chart/${symbol}`)
 	}
 
 	formatter = (cell, row, rowIndex, formatExtraData) => (
-		<IconButton onClick={(e) => this.handleRemoveCompanyFromWatchlist(e, row)}>
+		<IconButton onClick={(e) => this.handleOpenChart(e, row)}>
 			<ShowChartIcon />
 		</IconButton>
 	)
@@ -46,7 +40,7 @@ class WatchlistTable extends React.Component {
 		const { quotes } = this.state
 
 		if (quotes.length === 0) {
-			return <div>Loading...</div>
+			return <CircularProgress sx={{ margin: 'auto' }} size={100} />
 		}
 
 		const columns = [

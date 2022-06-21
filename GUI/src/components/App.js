@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import NavBar from './NavBar'
 
 import HomeWindow from './common/HomeWindow'
+import Chart from "./chart/Chart";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component {
@@ -25,6 +26,8 @@ class App extends React.Component {
 					{/* Todo width for tables and columns */}
 					<Switch>
 						<Route exact path='/' component={HomeWindow} />
+
+						<Route path='/chart/:symbol' component={Chart} />
 					</Switch>
 				</div>
 			</BrowserRouter>

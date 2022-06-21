@@ -30,4 +30,5 @@ api:
   lb:
     forex: [
         "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu",
+        "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getFxRatesForCurrency?tp=EU&ccy={0}&dtFrom={1}&dtTo={2}"
     ]

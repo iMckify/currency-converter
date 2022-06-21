@@ -1,11 +1,13 @@
 package com.lbapp.LBcalc.controllers;
 
 import com.lbapp.LBcalc.models.CurrentFxRate;
+import com.lbapp.LBcalc.models.HistoryFxRate;
 import com.lbapp.LBcalc.services.ForexService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +25,10 @@ public class ForexController {
     @GetMapping("/current")
     public List<CurrentFxRate> getLastPrices(){
         return this.forexService.getAllCurrent();
+    }
+
+    @GetMapping("/history/{symbol}/{dateFrom}/{dateTo}")
+    public List<HistoryFxRate> getPriceHistory(@PathVariable(value = "symbol") String symbol, @PathVariable(value = "dateFrom") String dateFrom, @PathVariable(value = "dateTo") String dateTo) {
+        return this.forexService.getRatesHistory(symbol, dateFrom, dateTo);
     }
 }

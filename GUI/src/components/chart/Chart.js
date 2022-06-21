@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import axios from 'axios'
-import _ from 'lodash'
 import { API } from '../../api/API'
 
 export const dateToStr = (obj) => {
@@ -97,7 +96,7 @@ export default function Chart(props) {
 			const data = response
 			const price = data[data.length - 1]
 			const dateStr = tradingViewDateToStr(price.time)
-			toolTip.innerHTML = `<div style="font-size: 22px"> $${(
+			toolTip.innerHTML = `<div style="font-size: 22px"> ${(
 				Math.round(price.value * 100) / 100
 			).toFixed(2)} </div>
 				<div> ${dateStr} </div>`
@@ -117,7 +116,7 @@ export default function Chart(props) {
 			} else {
 				const price = param.seriesPrices.get(areaSeries)
 				const dateStr = tradingViewDateToStr(param.time)
-				toolTip.innerHTML = `<div style="font-size: 22px"> $${(
+				toolTip.innerHTML = `<div style="font-size: 22px"> ${(
 					Math.round(price * 100) / 100
 				).toFixed(2)} </div>
 				<div> ${dateStr} </div>`

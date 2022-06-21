@@ -7,19 +7,19 @@ import DateBasic from '../common/DateBasic'
 export class HistoryForm extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state= { date: ''}
+		this.state= { dateFrom: undefined}
 	}
 
 	handleSave = (x) => {
 		console.log('handleSave')
 	}
 
-	handleChange = (x) => {
-		console.log('handleChange')
-		this.setState({ date: x })
+	handleChangeDateFrom = (date) => {
+		this.setState({ dateFrom: date })
 	}
 
 	render() {
+		const { dateFrom } = this.state
 		const header = 'History'
 
 		return (
@@ -27,12 +27,12 @@ export class HistoryForm extends React.Component {
 				<h1>{header}</h1>
 				<form onSubmit={this.handleSave}>
 					<DateBasic
-						name='date'
-						label='Date'
+						name='dateFrom'
+						label='Date From'
 						mode='past'
 						required
-						value={this.state.date}
-						change={this.handleChange}
+						value={dateFrom}
+						change={this.handleChangeDateFrom}
 					/>
 				</form>
 			</div>

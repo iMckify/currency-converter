@@ -113,7 +113,7 @@ DateBasic.propTypes = {
 	mode: PropTypes.string.isRequired,
 	change: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
-	value: PropTypes.object.isRequired,
+	value: PropTypes.object,
 }
 
 export default DateBasic

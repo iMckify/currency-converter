@@ -6,7 +6,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { API } from '../../api/API'
 
-export const dateToStrSimple = (obj) => {
+export const dateToStr = (obj) => {
 	let date = obj
 	if (!date || date.toString() === 'Invalid Date') {
 		date = new Date()
@@ -18,7 +18,7 @@ export const dateToStrSimple = (obj) => {
 	return date
 }
 
-const dateToStr = (obj) => {
+const tradingViewDateToStr = (obj) => {
 	let date = new Date()
 	if (typeof obj === 'number') {
 		date = new Date(obj * 1000)
@@ -39,10 +39,10 @@ export default function Chart(props) {
 		const today = new Date()
 		today.setHours(4)
 
-		const dateTo = dateToStrSimple(today)
+		const dateTo = dateToStr(today)
 
 		today.setDate(today.getDate() - 30)
-		const dateFrom = dateToStrSimple(today)
+		const dateFrom = dateToStr(today)
 
 		const ticker = props.match.params.symbol
 		const symbol = ticker.replace('EUR','')
@@ -96,7 +96,7 @@ export default function Chart(props) {
 		function setLastBarText() {
 			const data = response
 			const price = data[data.length - 1]
-			const dateStr = dateToStr(price.time)
+			const dateStr = tradingViewDateToStr(price.time)
 			toolTip.innerHTML = `<div style="font-size: 22px"> $${(
 				Math.round(price.value * 100) / 100
 			).toFixed(2)} </div>
@@ -116,7 +116,7 @@ export default function Chart(props) {
 				setLastBarText()
 			} else {
 				const price = param.seriesPrices.get(areaSeries)
-				const dateStr = dateToStr(param.time)
+				const dateStr = tradingViewDateToStr(param.time)
 				toolTip.innerHTML = `<div style="font-size: 22px"> $${(
 					Math.round(price * 100) / 100
 				).toFixed(2)} </div>

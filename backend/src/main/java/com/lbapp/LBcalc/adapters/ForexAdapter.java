@@ -15,7 +15,8 @@ public class ForexAdapter {
     private ForexService forexService;
 
 //    @Scheduled(cron = "0 0/3 15-22 ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
-    @Scheduled(cron = "*/20 * * ? * MON-FRI", zone = "Europe/Vilnius") // every 3 minutes, from 15:00 to 22:00, work days
+//    @Scheduled(cron = "*/20 * * ? * MON-FRI", zone = "Europe/Vilnius")
+    @Scheduled(fixedDelay = 10 * 60 * 1000)
     private void updateFxRates() {
         logger.info("Executing scheduled task {}()", new Object(){}.getClass().getEnclosingMethod().getName());
 

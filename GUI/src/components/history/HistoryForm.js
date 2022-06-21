@@ -26,9 +26,9 @@ export class HistoryForm extends React.Component {
 			})
 	}
 
-	handleSave = (e) => {
+	handleSubmit = (e) => {
 		const { dateFrom, dateTo } = this.state
-		console.log('handleSave')
+		console.log('handleSubmit')
 	}
 
 	handleChangeDateFrom = (date) => {
@@ -48,7 +48,7 @@ export class HistoryForm extends React.Component {
 		return (
 			<div className='container'>
 				<h1>{header}</h1>
-				<form onSubmit={this.handleSave}>
+				<form onSubmit={this.handleSubmit}>
 
 					<div className='form-group'>
 						<label>Symbol</label>

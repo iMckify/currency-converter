@@ -7,12 +7,22 @@ import enLocale from 'date-fns/locale/en-US'
 import TextField from '@mui/material/TextField'
 
 function DateBasic(props) {
-	const { name, required, mode, value } = props
+	const { name, required, mode, value, otherDate } = props
 	let { label } = props
 	label += ' (yyyy-mm-dd)'
 	if (required) {
 		label += ' *'
 	}
+
+	let minDate = new Date()
+	if (mode === 'past') {
+		minDate = new Date('2000-01-01')
+	}
+
+	if (name === 'dateTo' && !!otherDate) {
+		minDate = otherDate
+	}
+
 	return (
 		<div className='form-group'>
 			<label htmlFor={name}>{label}</label>
@@ -27,7 +37,7 @@ function DateBasic(props) {
 						views={['year', 'month', 'day']}
 						value={value || new Date()}
 						disableFuture={mode === 'past'}
-						minDate={mode === 'past' ? new Date('2000-01-01') : new Date()}
+						minDate={minDate}
 						onChange={(newDate) => {
 							props.change(newDate)
 						}}
@@ -81,6 +91,9 @@ function DateBasic(props) {
 									if (date < date2000) {
 										isError = true
 										helperText = 'Date must be after 2000-01-01'
+									} else if (name === 'dateTo' && !!otherDate && date < otherDate) {
+										isError = true
+										helperText = `Date must be after 'Date From'`
 									} else if (date > currentDate) {
 										// ok
 										isError = true

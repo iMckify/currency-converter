@@ -113,6 +113,7 @@ export class HistoryForm extends React.Component {
 						mode='past'
 						required
 						value={dateFrom}
+						otherDate={dateTo}
 						change={this.handleChangeDateFrom}
 					/>
 
@@ -122,6 +123,7 @@ export class HistoryForm extends React.Component {
 						mode='past'
 						required
 						value={dateTo}
+						otherDate={dateFrom}
 						change={this.handleChangeDateTo}
 					/>
 

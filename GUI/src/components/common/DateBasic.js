@@ -38,7 +38,7 @@ function DateBasic(props) {
 						value={value || new Date()}
 						disableFuture={mode === 'past'}
 						minDate={minDate}
-						onChange={(newDate) => {
+						onChange={(newDate, dateAsString) => {
 							props.change(newDate)
 						}}
 						// inputFormat='dd/MM/yyyy'
@@ -50,7 +50,7 @@ function DateBasic(props) {
 							const isValid =
 								Boolean(dateStr) &&
 								!isNaN(Date.parse(dateStr)) &&
-								/^\d{4}-\d{2}-\d{2}$/.test(dateStr)
+								/^\d{4}-\d{2}-\d{1,2}$/.test(dateStr)
 							let isError = Boolean(params?.error)
 
 							const currentDate = new Date(new Date().toLocaleDateString())
@@ -60,6 +60,7 @@ function DateBasic(props) {
 
 							// future date can be:  ok, invalid, < now
 							// past date can be:    ok, invalid, < 2000, > now
+							// past Date To can be: ok, < Date From
 							let helperText = ' '
 							if (mode === 'future') {
 								if (!isValid) {

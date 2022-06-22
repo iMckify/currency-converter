@@ -4,29 +4,7 @@ import PropTypes from 'prop-types'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import axios from 'axios'
 import { API } from '../../api/API'
-
-export const dateToStr = (obj) => {
-	let date = obj
-	if (!date || date.toString() === 'Invalid Date') {
-		date = new Date()
-	} else if (typeof date === 'string' && !isNaN(Date.parse(date))) {
-		date = new Date(date)
-	}
-	date.setHours(4) // todo
-	date = date.toISOString().split('T')[0]
-	return date
-}
-
-const tradingViewDateToStr = (obj) => {
-	let date = new Date()
-	if (typeof obj === 'number') {
-		date = new Date(obj * 1000)
-	} else if (typeof obj === 'object') {
-		date = new Date(obj.year, obj.month, obj.day)
-	}
-	date.setHours(4) // todo
-	return date.toISOString().slice(0, 10)
-}
+import {dateToStr, tradingViewDateToStr} from '../common/Utils'
 
 export default function Chart(props) {
 	const chartContainerRef = useRef(null)

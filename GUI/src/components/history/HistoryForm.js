@@ -6,7 +6,8 @@ import ShowChartIcon from '@mui/icons-material/ShowChart'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import DateBasic from '../common/DateBasic'
-import CrudApi from "../../api/CrudApi";
+import CrudApi from '../../api/CrudApi'
+import {isDateValid} from '../common/Utils'
 
 
 export class HistoryForm extends React.Component {
@@ -60,6 +61,9 @@ export class HistoryForm extends React.Component {
 		const header = 'History'
 
 		const optionKey = 'symbol'
+
+		const areDatesValid = isDateValid(dateFrom) && isDateValid(dateTo)
+		const isSubmitDisabled = (!areDatesValid || dateFrom?.getTime() > dateTo?.getTime()) || (isErrorSymbol || !selectedSymbol)
 
 		return (
 			<div className='container'>
@@ -132,7 +136,7 @@ export class HistoryForm extends React.Component {
 							type='submit'
 							color='primary'
 							variant='contained'
-							disabled={ dateFrom.getTime() > dateTo.getTime() || isErrorSymbol }
+							disabled={ isSubmitDisabled }
 							startIcon={<ShowChartIcon style={{ marginRight: -5 }} />}
 						>
 							View Prices

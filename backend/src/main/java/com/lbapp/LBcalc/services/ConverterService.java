@@ -15,8 +15,12 @@ import java.util.List;
 public class ConverterService {
     public static final Logger logger = LoggerFactory.getLogger(ConverterService.class);
 
-    @Autowired
+//    @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
+
+    public ConverterService(CurrentFxRatesRepo currentFxRatesRepo) {
+        this.currentFxRatesRepo = currentFxRatesRepo;
+    }
 
     // https://sdw.ecb.europa.eu/curConverter.do
     // 100 USD to AUD

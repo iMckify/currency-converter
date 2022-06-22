@@ -38,7 +38,7 @@ public class ForexController {
     }
 
     @GetMapping("/convert/{symbolFrom}/{symbolTo}/{amount}")
-    public BigDecimal convert(@PathVariable(value = "symbolFrom") String symbolFrom, @PathVariable(value = "symbolTo") String symbolTo, @PathVariable(value = "amount") double amount){
+    public BigDecimal convert(@PathVariable(value = "symbolFrom") String symbolFrom, @PathVariable(value = "symbolTo") String symbolTo, @PathVariable(value = "amount") BigDecimal amount){
         return this.converterService.convertAPI(symbolFrom, symbolTo, amount);
     }
 

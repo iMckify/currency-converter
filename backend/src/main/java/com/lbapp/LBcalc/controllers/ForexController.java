@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -37,8 +38,8 @@ public class ForexController {
     }
 
     @GetMapping("/convert/{symbolFrom}/{symbolTo}/{amount}")
-    public double convert(@PathVariable(value = "symbolFrom") String symbolFrom, @PathVariable(value = "symbolTo") String symbolTo, @PathVariable(value = "amount") double amount){
-        return this.converterService.convert(symbolFrom, symbolTo, amount);
+    public BigDecimal convert(@PathVariable(value = "symbolFrom") String symbolFrom, @PathVariable(value = "symbolTo") String symbolTo, @PathVariable(value = "amount") double amount){
+        return this.converterService.convertAPI(symbolFrom, symbolTo, amount);
     }
 
 }

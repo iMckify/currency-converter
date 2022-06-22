@@ -22,7 +22,7 @@ public class ConverterService {
     // 100 USD to AUD
     // 100 / 1,0517 USD * 1,5061 AUD = 143.20623752
     // input / first * second
-    public double convert(String symbolSelected, String symbolTarget, double input) {
+    public BigDecimal convertAPI(String symbolSelected, String symbolTarget, double input) {
         List<CurrentFxRate> allRates = this.currentFxRatesRepo.findAll();
 
         BigDecimal firstRate = null;
@@ -39,10 +39,19 @@ public class ConverterService {
             secondRate = this.currentFxRatesRepo.findBySymbolContains(symbolTarget).getValue();
         }
 
+        logger.info("Converting " + symbolSelected + "/" + symbolTarget);
+        return convertBigDec(firstRate, secondRate, input);
+    }
+
+    public BigDecimal convertBigDec(BigDecimal firstRate, BigDecimal secondRate, double input) {
         BigDecimal amount = new BigDecimal(input);
 
+        logger.info("firstRate:  " + firstRate);
+        logger.info("secondRate: " + secondRate);
         BigDecimal result = amount.divide(firstRate, 18, RoundingMode.FLOOR).multiply(secondRate);
-        BigDecimal resultScaled = result.setScale(2, BigDecimal.ROUND_FLOOR);
-        return resultScaled.doubleValue();
+        logger.info("Result:\t" + result);
+        BigDecimal resultScaled = result.setScale(18, BigDecimal.ROUND_FLOOR);
+        logger.info("Converted:\t" + resultScaled);
+        return resultScaled;
     }
 }

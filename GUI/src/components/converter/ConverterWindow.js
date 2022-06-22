@@ -98,6 +98,8 @@ class ConverterWindow extends React.Component {
         const header = 'LB Currency converter'
         const optionKey = 'symbol'
 
+        const isSubmitDisabled = amount <= 0 || isErrorSymbolFrom || isErrorSymbolTo || !symbolFrom || !symbolTo
+
         return (
             <div className='container'>
                 <h1>{header}</h1>
@@ -232,7 +234,7 @@ class ConverterWindow extends React.Component {
 
                     <Button
                     style={styles.button}
-                        disabled={notEmpty(amountError) && isErrorSymbolFrom && isErrorSymbolTo}
+                        disabled={isSubmitDisabled}
                         variant='outlined'
                         type='submit'
                     >Calculate

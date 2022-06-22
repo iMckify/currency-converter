@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Divider from '@mui/material/Divider'
 import BootstrapTable from 'react-bootstrap-table-next'
 import Toolbar from '@mui/material/Toolbar'
@@ -9,7 +8,7 @@ import CrudApi from '../../api/CrudApi'
 class WatchlistTable extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = { selectedWatchlist: 'All', quotes: [] }
+		this.state = { quotes: [] }
 	}
 
 	componentDidMount() {
@@ -21,11 +20,6 @@ class WatchlistTable extends React.Component {
 			.catch((error) => {
 				throw error
 			})
-	}
-
-	handleOpenChart = (e, row) => {
-		const { symbol } = row
-		this.props.history.push(`/chart/${symbol}`)
 	}
 
 	render() {
@@ -75,10 +69,6 @@ class WatchlistTable extends React.Component {
 			</div>
 		)
 	}
-}
-
-WatchlistTable.propTypes = {
-	history: PropTypes.object,
 }
 
 export default WatchlistTable

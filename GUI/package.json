@@ -43,16 +43,11 @@
     "react-scripts": "^5.0.0"
   },
   "scripts": {
-    "3000": "BROWSER=none PORT=3000 react-scripts start",
     "linux": "sudo setcap 'cap_net_bind_service=+ep' `which node`",
-    "start": "PORT=80 react-scripts start",
-    "startWin": "set PORT=80 && react-scripts start",
+    "start": "BROWSER=none PORT=3000 react-scripts start",
+    "startWin": "set PORT=3000 && react-scripts start",
     "build": "BUILD_PATH='../target' DISABLE_ESLINT_PLUGIN=true react-scripts build",
-    "buildToApache": "react-scripts build && sudo mv build/* /var/www/html/",
-    "lint": "./node_modules/.bin/eslint --fix --ext js src",
-    "test": "react-scripts test --env=jsdom",
-    "coverage": "react-scripts test --env=jsdom --coverage",
-    "eject": "react-scripts eject"
+    "lint": "./node_modules/.bin/eslint --fix --ext js src"
   },
   "browserslist": {
     "production": [

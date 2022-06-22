@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import enLocale from 'date-fns/locale/en-US'
 import TextField from '@mui/material/TextField'
-import {styles} from "../../style/styles";
+import { styles } from '../../style/styles'
 
 function DateBasic(props) {
 	const { name, required, mode, value, otherDate } = props

@@ -39,8 +39,17 @@ export class HistoryForm extends React.Component {
 		this.setState({ dateTo: date })
 	}
 
+	validateSymbol = (e) => {
+		const { symbols } = this.state
+		const { value } = e.target
+
+		if (!symbols.map(fx => fx.symbol).includes(value)) {
+			this.setState({ isErrorSymbol: true })
+		}
+	}
+
 	render() {
-		const { dateFrom, dateTo, symbols, selectedSymbol } = this.state
+		const { dateFrom, dateTo, symbols, selectedSymbol, isErrorSymbol } = this.state
 		const header = 'History'
 
 		const optionKey = 'symbol'
@@ -67,7 +76,7 @@ export class HistoryForm extends React.Component {
 								</li>
 							)}
 							onChange={(e, val) => {
-								this.setState({ selectedSymbol: val })
+								this.setState({ selectedSymbol: val, isErrorSymbol: false })
 							}}
 							style={{ width: 400 }}
 							renderInput={(params) => (
@@ -82,8 +91,10 @@ export class HistoryForm extends React.Component {
 												visibility: 'hidden',
 											},
 										},
-										marginBottom: `${1}rem`,
 									}}
+									error={isErrorSymbol}
+									helperText={isErrorSymbol ? 'Symbol is not selected' : ' '}
+									onBlur={this.validateSymbol}
 								/>
 							)}
 						/>
@@ -112,7 +123,7 @@ export class HistoryForm extends React.Component {
 							type='submit'
 							color='primary'
 							variant='contained'
-							disabled={ dateFrom.getTime() > dateTo.getTime() || !selectedSymbol }
+							disabled={ dateFrom.getTime() > dateTo.getTime() || isErrorSymbol }
 							startIcon={<ShowChartIcon style={{ marginRight: -5 }} />}
 						>
 							View Prices

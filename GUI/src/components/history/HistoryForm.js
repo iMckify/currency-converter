@@ -12,7 +12,14 @@ import CrudApi from "../../api/CrudApi";
 export class HistoryForm extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = { dateFrom: new Date(), dateTo: new Date(), symbols: [], selectedSymbol: null }
+
+		const today = new Date()
+		today.setHours(4)
+
+		const prevDay = new Date(today.getTime())
+		prevDay.setDate(today.getDate() - 30)
+
+		this.state = { dateFrom: prevDay, dateTo: today, symbols: [], selectedSymbol: null, isErrorSymbol: false }
 	}
 
 	componentDidMount() {

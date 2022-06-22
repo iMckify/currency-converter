@@ -3,45 +3,10 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Autocomplete from '@mui/material/Autocomplete'
 import CrudApi from "../../api/CrudApi";
+import {styles} from "../../style/styles";
 
 function notEmpty(myString) {
     return myString !== ''
-}
-
-const styles = {
-    title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#3f51b5',
-        textAlign: 'center',
-    },
-    paper: {
-        position: 'absolute',
-        boxShadow: '0 0 10px',
-        padding: 32,
-        outline: 'none',
-        height: '80vh%',
-        width: '20vw',
-        top: '64px',
-        left: `${40}%`,
-        display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'initial',
-    },
-    textFields: {
-        width: '17vw',
-        height: '5vh',
-        marginBottom: '3vh',
-    },
-    button: {
-        width: '17vw',
-        marginTop: '1vh',
-    },
-    layout: {
-        fontSize: 18,
-        color: '#3f51b5',
-        display: 'grid',
-    },
 }
 
 class ConverterWindow extends React.Component {
@@ -119,39 +84,120 @@ class ConverterWindow extends React.Component {
     }
 
     render() {
-        const { result, symbols, symbolFrom, isErrorSymbolFrom, symbolTo, isErrorSymbolTo, amount, amountError } = this.state
+        const {
+            result,
+            symbols,
+            symbolFrom,
+            isErrorSymbolFrom,
+            symbolTo,
+            isErrorSymbolTo,
+            amount,
+            amountError
+        } = this.state
 
+        const header = 'LB Currency converter'
         const optionKey = 'symbol'
-        
+
         return (
-            <form onSubmit={this.handleSubmit} style={styles.layout}>
+            <div className='container'>
+                <h1>{header}</h1>
+                <form onSubmit={this.handleSubmit} style={styles.layout}>
 
-                <div className='form-group'>
-                    <label>From</label>
-                    <Autocomplete
-                        // autoSelect
-                        value={symbolFrom}
-                        loading={symbols.length === 0}
-                        options={symbols}
-                        getOptionLabel={(option) => option[optionKey]}
-                        renderOption={(props, option) => (
-                            <li {...props} style={{ justifyContent: 'space-between' }}>
-                                <div className='mr-5'>{option[optionKey]}</div>
-                                <div style={{ fontSize: 11, color: 'darkgray' }}>
-                                    {option.value}
-                                </div>
-                            </li>
-                        )}
-                        onChange={(e, val) => {
-                            this.setState({ symbolFrom: val, isErrorSymbolFrom: false, result: 0 })
-                        }}
-                        style={{ width: 400 }}
-                        renderInput={(params) => (
+                    <div className='form-group'>
+                        <label>From</label>
+                        <Autocomplete
+                            // autoSelect
+                            value={symbolFrom}
+                            loading={symbols.length === 0}
+                            options={symbols}
+                            getOptionLabel={(option) => option[optionKey]}
+                            renderOption={(props, option) => (
+                                <li {...props} style={{justifyContent: 'space-between'}}>
+                                    <div className='mr-5'>{option[optionKey]}</div>
+                                    <div style={{fontSize: 11, color: 'darkgray'}}>
+                                        {option.value}
+                                    </div>
+                                </li>
+                            )}
+                            onChange={(e, val) => {
+                                this.setState({symbolFrom: val, isErrorSymbolFrom: false, result: 0})
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant='outlined'
+                                    InputLabelProps={{shrink: false}}
+                                    label={symbolFrom?.[optionKey] ? ' ' : 'Search Symbol...'}
+                                    sx={{
+                                        '& label': {
+                                            '&.Mui-focused': {
+                                                visibility: 'hidden',
+                                            },
+                                        },
+                                    }}
+                                    style={styles.textFields}
+                                    error={isErrorSymbolFrom}
+                                    helperText={isErrorSymbolFrom ? 'Symbol is not selected' : ' '}
+                                    onBlur={this.validateSymbolFrom}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div className='form-group'>
+                        <label>To</label>
+                        <Autocomplete
+                            // autoSelect
+                            value={symbolTo}
+                            loading={symbols.length === 0}
+                            options={symbols}
+                            getOptionLabel={(option) => option[optionKey]}
+                            renderOption={(props, option) => (
+                                <li {...props} style={{justifyContent: 'space-between'}}>
+                                    <div className='mr-5'>{option[optionKey]}</div>
+                                    <div style={{fontSize: 11, color: 'darkgray'}}>
+                                        {option.value}
+                                    </div>
+                                </li>
+                            )}
+                            onChange={(e, val) => {
+                                this.setState({symbolTo: val, isErrorSymbolTo: false, result: 0})
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant='outlined'
+                                    InputLabelProps={{shrink: false}}
+                                    label={symbolTo?.[optionKey] ? ' ' : 'Search Symbol...'}
+                                    sx={{
+                                        '& label': {
+                                            '&.Mui-focused': {
+                                                visibility: 'hidden',
+                                            },
+                                        },
+                                    }}
+                                style={styles.textFields}
+                                    error={isErrorSymbolTo}
+                                    helperText={isErrorSymbolTo ? 'Symbol is not selected' : ' '}
+                                    onBlur={this.validateSymbolTo}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div className='form-group'>
+                        <label>Amount</label>
+                        <div>
                             <TextField
-                                {...params}
-                                variant='outlined'
-                                InputLabelProps={{ shrink: false }}
-                                label={symbolFrom?.[optionKey] ? ' ' : 'Search Symbol...'}
+                                name='amount'
+                                label=''
+                                type='number'
+                                onChange={this.handleChange}
+                                onBlur={this.validate}
+                                value={amount}
+                                error={notEmpty(amountError)}
+                                helperText={amountError}
+                            style={styles.textFields}
                                 sx={{
                                     '& label': {
                                         '&.Mui-focused': {
@@ -159,41 +205,20 @@ class ConverterWindow extends React.Component {
                                         },
                                     },
                                 }}
-                                style={styles.textFields}
-                                error={isErrorSymbolFrom}
-                                helperText={isErrorSymbolFrom ? 'Symbol is not selected' : ' '}
-                                onBlur={this.validateSymbolFrom}
                             />
-                        )}
-                    />
-                </div>
+                        </div>
+                    </div>
 
-                <div className='form-group'>
-                    <label>To</label>
-                    <Autocomplete
-                        // autoSelect
-                        value={symbolTo}
-                        loading={symbols.length === 0}
-                        options={symbols}
-                        getOptionLabel={(option) => option[optionKey]}
-                        renderOption={(props, option) => (
-                            <li {...props} style={{ justifyContent: 'space-between' }}>
-                                <div className='mr-5'>{option[optionKey]}</div>
-                                <div style={{ fontSize: 11, color: 'darkgray' }}>
-                                    {option.value}
-                                </div>
-                            </li>
-                        )}
-                        onChange={(e, val) => {
-                            this.setState({ symbolTo: val, isErrorSymbolTo: false, result: 0 })
-                        }}
-                        style={{ width: 400 }}
-                        renderInput={(params) => (
+                    <div className='form-group'>
+                        <label>Result</label>
+                        <div>
                             <TextField
-                                {...params}
-                                variant='outlined'
-                                InputLabelProps={{ shrink: false }}
-                                label={symbolTo?.[optionKey] ? ' ' : 'Search Symbol...'}
+                                name='result'
+                                label=''
+                                type='number'
+                                value={result}
+                                disabled
+                            style={styles.textFields}
                                 sx={{
                                     '& label': {
                                         '&.Mui-focused': {
@@ -201,68 +226,19 @@ class ConverterWindow extends React.Component {
                                         },
                                     },
                                 }}
-                                style={styles.textFields}
-                                error={isErrorSymbolTo}
-                                helperText={isErrorSymbolTo ? 'Symbol is not selected' : ' '}
-                                onBlur={this.validateSymbolTo}
                             />
-                        )}
-                    />
-                </div>
-
-                <div className='form-group'>
-                    <label>Amount</label>
-                    <div>
-                        <TextField
-                            name='amount'
-                            label=''
-                            type='number'
-                            onChange={this.handleChange}
-                            onBlur={this.validate}
-                            value={amount}
-                            error={notEmpty(amountError)}
-                            helperText={amountError}
-                            style={styles.textFields}
-                            sx={{
-                                '& label': {
-                                    '&.Mui-focused': {
-                                        visibility: 'hidden',
-                                    },
-                                },
-                            }}
-                        />
+                        </div>
                     </div>
-                </div>
 
-                <div className='form-group'>
-                    <label>Result</label>
-                    <div>
-                        <TextField
-                            name='result'
-                            label=''
-                            type='number'
-                            value={result}
-                            disabled
-                            style={styles.textFields}
-                            sx={{
-                                '& label': {
-                                    '&.Mui-focused': {
-                                        visibility: 'hidden',
-                                    },
-                                },
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <Button
+                    <Button
                     style={styles.button}
-                    disabled={notEmpty(amountError) && isErrorSymbolFrom && isErrorSymbolTo}
-                    variant='outlined'
-                    type='submit'
-                >Calculate
-                </Button>
-            </form>
+                        disabled={notEmpty(amountError) && isErrorSymbolFrom && isErrorSymbolTo}
+                        variant='outlined'
+                        type='submit'
+                    >Calculate
+                    </Button>
+                </form>
+            </div>
         )
     }
 }

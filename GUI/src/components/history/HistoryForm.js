@@ -8,6 +8,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import DateBasic from '../common/DateBasic'
 import CrudApi from '../../api/CrudApi'
 import {dateToStr, isDateValid} from '../common/Utils'
+import {styles} from "../../style/styles";
 
 
 export class HistoryForm extends React.Component {
@@ -68,7 +69,7 @@ export class HistoryForm extends React.Component {
 		return (
 			<div className='container'>
 				<h1>{header}</h1>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} style={styles.layout}>
 
 					<div className='form-group'>
 						<label>Symbol</label>
@@ -89,7 +90,6 @@ export class HistoryForm extends React.Component {
 							onChange={(e, val) => {
 								this.setState({ selectedSymbol: val, isErrorSymbol: false })
 							}}
-							style={{ width: 400 }}
 							renderInput={(params) => (
 								<TextField
 									{...params}
@@ -103,6 +103,7 @@ export class HistoryForm extends React.Component {
 											},
 										},
 									}}
+									style={styles.textFields}
 									error={isErrorSymbol}
 									helperText={isErrorSymbol ? 'Symbol is not selected' : ' '}
 									onBlur={this.validateSymbol}
@@ -133,6 +134,7 @@ export class HistoryForm extends React.Component {
 
 					<div>
 						<Button
+							style={styles.button}
 							type='submit'
 							color='primary'
 							variant='contained'

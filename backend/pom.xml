@@ -62,6 +62,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- 	/tests	BigDecimal -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>java-hamcrest</artifactId>
+			<version>2.0.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

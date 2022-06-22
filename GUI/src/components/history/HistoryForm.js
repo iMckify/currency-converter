@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import DateBasic from '../common/DateBasic'
 import CrudApi from '../../api/CrudApi'
-import {isDateValid} from '../common/Utils'
+import {dateToStr, isDateValid} from '../common/Utils'
 
 
 export class HistoryForm extends React.Component {
@@ -35,8 +35,8 @@ export class HistoryForm extends React.Component {
 	}
 
 	handleSubmit = (e) => {
-		const { dateFrom, dateTo } = this.state
-		console.log('handleSubmit')
+		const { dateFrom, dateTo, selectedSymbol } = this.state
+		this.props.history.push(`/viewHistory/${selectedSymbol.symbol}/${dateToStr(dateFrom)}/${dateToStr(dateTo)}`)
 	}
 
 	handleChangeDateFrom = (date) => {

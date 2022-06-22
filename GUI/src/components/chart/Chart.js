@@ -2,9 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { createChart, CrosshairMode } from 'lightweight-charts'
-import axios from 'axios'
-import { API } from '../../api/API'
-import {dateToStr, tradingViewDateToStr} from '../common/Utils'
+import { tradingViewDateToStr } from '../common/Utils'
 
 export default function Chart(props) {
 	const chartContainerRef = useRef(null)
@@ -13,21 +11,9 @@ export default function Chart(props) {
 
 	// eslint-disable-next-line
 	useEffect(async () => {
-		const today = new Date()
-		today.setHours(4)
+		const { quotes } = props
 
-		const dateTo = dateToStr(today)
-
-		today.setDate(today.getDate() - 30)
-		const dateFrom = dateToStr(today)
-
-		const ticker = props.match.params.symbol
-		const symbol = ticker.replace('EUR','')
-
-		const response = await axios
-			.get(`${API}/Forex/history/${symbol}/${dateFrom}/${dateTo}`)
-			.then((res) => res.data)
-		const priceData = response.reverse().map(forex => ({ time: forex.date, value: forex.value }))
+		const priceData = quotes.map(forex => ({ time: forex.date, value: forex.value }))
 
 		chart.current = createChart(chartContainerRef.current, {
 			width: 600,
@@ -71,7 +57,7 @@ export default function Chart(props) {
 		container.appendChild(toolTip)
 
 		function setLastBarText() {
-			const data = response
+			const data = quotes
 			const price = data[data.length - 1]
 			const dateStr = tradingViewDateToStr(price.time)
 			toolTip.innerHTML = `<div style="font-size: 22px"> ${(
@@ -129,5 +115,5 @@ export default function Chart(props) {
 }
 
 Chart.propTypes = {
-	match: PropTypes.object.isRequired,
+	quotes: PropTypes.array.isRequired,
 }

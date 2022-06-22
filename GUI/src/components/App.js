@@ -6,7 +6,7 @@ import NavBar from './NavBar'
 
 import HomeWindow from './common/HomeWindow'
 import HistoryForm from './history/HistoryForm'
-import Chart from './chart/Chart'
+import HistoryWindow from './history/HistoryWindow'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component {
@@ -29,7 +29,7 @@ class App extends React.Component {
 						<Route exact path='/' component={HomeWindow} />
 
 						<Route path='/history' component={HistoryForm} />
-						<Route path='/chart/:symbol' component={Chart} />
+						<Route path='/viewHistory/:ticker/:dateFrom/:dateTo' component={HistoryWindow} />
 					</Switch>
 				</div>
 			</BrowserRouter>

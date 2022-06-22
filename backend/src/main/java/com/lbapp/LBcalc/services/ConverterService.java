@@ -31,14 +31,14 @@ public class ConverterService {
 
         BigDecimal firstRate = null;
         if (symbolSelected.equals("EUR")) {
-            firstRate = new BigDecimal(1);
+            firstRate = BigDecimal.ONE;
         } else {
             firstRate = this.currentFxRatesRepo.findBySymbolContains(symbolSelected).getValue();
         }
 
         BigDecimal secondRate = null;
         if (symbolTarget.equals("EUR")) {
-            secondRate = new BigDecimal(1);
+            secondRate = BigDecimal.ONE;
         } else {
             secondRate = this.currentFxRatesRepo.findBySymbolContains(symbolTarget).getValue();
         }
@@ -51,9 +51,9 @@ public class ConverterService {
         logger.info("firstRate:  " + firstRate);
         logger.info("secondRate: " + secondRate);
         BigDecimal result = amount.divide(firstRate, 18, RoundingMode.FLOOR).multiply(secondRate);
-        logger.info("Result:\t" + result);
+        logger.info("Result:\t" + result.toPlainString());
         BigDecimal resultScaled = result.setScale(18, BigDecimal.ROUND_FLOOR);
-        logger.info("Converted:\t" + resultScaled);
+        logger.info("Converted:\t" + resultScaled.toPlainString());
         return resultScaled;
     }
 }

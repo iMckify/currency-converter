@@ -29,7 +29,10 @@ class App extends React.Component {
 						<Route exact path='/' component={HomeWindow} />
 
 						<Route path='/history' component={HistoryForm} />
-						<Route path='/viewHistory/:ticker/:dateFrom/:dateTo' component={HistoryWindow} />
+						<Route
+							path='/viewHistory/:ticker/:dateFrom/:dateTo'
+							component={HistoryWindow}
+						/>
 					</Switch>
 				</div>
 			</BrowserRouter>

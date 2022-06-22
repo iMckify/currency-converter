@@ -92,7 +92,11 @@ function DateBasic(props) {
 									if (date < date2000) {
 										isError = true
 										helperText = 'Date must be after 2000-01-01'
-									} else if (name === 'dateTo' && !!otherDate && date < otherDate) {
+									} else if (
+										name === 'dateTo' &&
+										!!otherDate &&
+										date < otherDate
+									) {
 										isError = true
 										helperText = `Date must be after 'Date From'`
 									} else if (date > currentDate) {
@@ -128,6 +132,7 @@ DateBasic.propTypes = {
 	change: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
 	value: PropTypes.object,
+	otherDate: PropTypes.object,
 }
 
 export default DateBasic

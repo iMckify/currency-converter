@@ -13,7 +13,10 @@ export default function Chart(props) {
 	useEffect(async () => {
 		const { quotes } = props
 
-		const priceData = quotes.map(forex => ({ time: forex.date, value: forex.value }))
+		const priceData = quotes.map((forex) => ({
+			time: forex.date,
+			value: forex.value,
+		}))
 
 		chart.current = createChart(chartContainerRef.current, {
 			width: 600,

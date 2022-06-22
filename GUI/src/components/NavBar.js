@@ -11,7 +11,7 @@ import Menu from '@mui/material/Menu'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Drawer from '@mui/material/Drawer'
-import WatchlistTable from "./watchlist/WatchlistTable";
+import WatchlistTable from './watchlist/WatchlistTable'
 
 class NavBar extends React.Component {
 	constructor(props) {
@@ -168,7 +168,7 @@ class NavBar extends React.Component {
 						},
 					}}
 				>
-					 <WatchlistTable history={this.props.history} />
+					<WatchlistTable history={this.props.history} />
 				</Drawer>
 				{/* Modal. mobile */}
 				<div>

@@ -64,6 +64,10 @@ class NavBar extends React.Component {
 				name: 'History',
 				to: '/history',
 			},
+			{
+				name: 'Converter',
+				to: '/converter',
+			},
 		]
 
 		const navInLine = navContent.map((obj, i) => {

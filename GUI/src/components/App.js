@@ -7,6 +7,7 @@ import NavBar from './NavBar'
 import HomeWindow from './common/HomeWindow'
 import HistoryForm from './history/HistoryForm'
 import HistoryWindow from './history/HistoryWindow'
+import ConverterWindow from './converter/ConverterWindow'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component {
@@ -33,6 +34,7 @@ class App extends React.Component {
 							path='/viewHistory/:ticker/:dateFrom/:dateTo'
 							component={HistoryWindow}
 						/>
+						<Route path='/converter' component={ConverterWindow} />
 					</Switch>
 				</div>
 			</BrowserRouter>

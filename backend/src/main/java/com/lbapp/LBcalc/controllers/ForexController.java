@@ -2,6 +2,7 @@ package com.lbapp.LBcalc.controllers;
 
 import com.lbapp.LBcalc.models.CurrentFxRate;
 import com.lbapp.LBcalc.models.HistoryFxRate;
+import com.lbapp.LBcalc.services.ConverterService;
 import com.lbapp.LBcalc.services.ForexService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,9 @@ public class ForexController {
     @Autowired
     private ForexService forexService;
 
+    @Autowired
+    private ConverterService converterService;
+
     @GetMapping("/current")
     public List<CurrentFxRate> getLastPrices(){
         return this.forexService.getAllCurrent();
@@ -31,4 +35,10 @@ public class ForexController {
     public List<HistoryFxRate> getPriceHistory(@PathVariable(value = "symbol") String symbol, @PathVariable(value = "dateFrom") String dateFrom, @PathVariable(value = "dateTo") String dateTo) {
         return this.forexService.getRatesHistory(symbol, dateFrom, dateTo);
     }
+
+    @GetMapping("/convert/{symbolFrom}/{symbolTo}/{amount}")
+    public double convert(@PathVariable(value = "symbolFrom") String symbolFrom, @PathVariable(value = "symbolTo") String symbolTo, @PathVariable(value = "amount") double amount){
+        return this.converterService.convert(symbolFrom, symbolTo, amount);
+    }
+
 }

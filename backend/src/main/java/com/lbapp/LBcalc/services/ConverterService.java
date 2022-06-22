@@ -1,41 +1,22 @@
-package com.lbapp.LBcalc.controllers;
+package com.lbapp.LBcalc.services;
 
 import com.lbapp.LBcalc.models.CurrentFxRate;
 import com.lbapp.LBcalc.repos.CurrentFxRatesRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Component
-public class Converter {
-    public static final Logger logger = LoggerFactory.getLogger(Converter.class);
+@Service
+public class ConverterService {
+    public static final Logger logger = LoggerFactory.getLogger(ConverterService.class);
 
     @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
-
-//    @PostConstruct
-    private void execute() {
-        logger.info("Executing task {}()", new Object(){}.getClass().getEnclosingMethod().getName());
-
-        String currency1 = "AUD";
-        String currency2 = "EUR";
-
-        double input = 100;
-        double result = 0;
-
-        try {
-            result = convert(currency1, currency2, input);
-        } catch (Exception ignored) {
-            logger.error("Please, check input data.");
-        }
-        System.out.println(result);
-    }
 
     // https://sdw.ecb.europa.eu/curConverter.do
     // 100 USD to AUD

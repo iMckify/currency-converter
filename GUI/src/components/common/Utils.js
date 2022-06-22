@@ -22,7 +22,7 @@ export const tradingViewDateToStr = (obj) => {
 }
 
 export const isDateValid = (date) => {
-	if (date?.toString() === 'Invalid Date') {
+	if (!date || date.toString() === 'Invalid Date') {
 		return false
 	}
 

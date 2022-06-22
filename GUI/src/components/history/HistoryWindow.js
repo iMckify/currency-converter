@@ -52,7 +52,7 @@ class HistoryWindow extends React.Component {
 						<BootstrapTable
 							bootstrap4
 							data={quotes}
-							keyField='ticker'
+							keyField='date'
 							bordered={false}
 							striped
 							hover

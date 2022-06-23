@@ -52,7 +52,9 @@ class ConverterWindow extends React.Component {
 		let errorText = ''
 		if (name === 'amount') {
 			const num = parseFloat(value)
-			if (num < 0) {
+			if (isNaN(num)) {
+				errorText = `Please, enter ${name}`
+			} else if (num < 0) {
 				errorText = `${name} can not be negative`
 			}
 		}

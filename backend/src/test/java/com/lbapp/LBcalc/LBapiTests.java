@@ -14,17 +14,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LBapiTests {
-
 	static final Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-
 
 	@BeforeAll
 	public static void setUp() {
@@ -32,6 +29,7 @@ public class LBapiTests {
 	}
 
 	private InputStream get(String url) {
+		requireNonNull(url, "Url can not be null");
 		InputStream inputStream = null;
 		try {
 			HttpRequest request = HttpRequest
@@ -52,37 +50,58 @@ public class LBapiTests {
 		return inputStream;
 	}
 
-	private List<FxRate> parse(InputStream inputStream) {
+	private List<FxRate> parseFxRatesFrom(InputStream inputStream) {
+		requireNonNull(inputStream, "InputStream of fx rates is null");
 		try {
 			XmlMapper xmlMapper = new XmlMapper();
 
 			return xmlMapper.readValue(inputStream, new TypeReference<List<FxRate>>() {});
 		} catch (Exception e) {
-			logger.error(Arrays.toString(e.getStackTrace()));
+			logger.error(List.of(e.getStackTrace()).toString());
 		}
-		return new ArrayList<FxRate>();
+		return List.of();
 	}
 
 	@Test
-	public void current_success () {
+	public void shouldGetAndParseFxRates() {
 		String url = "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu";
 
 		InputStream inputStream = get(url);
-		List<FxRate> list = parse(inputStream);
+		List<FxRate> list = parseFxRatesFrom(inputStream);
 
 		list.forEach(System.out::println);
 		assertTrue(list.size() > 0);
 	}
 
 	@Test
-	public void current_bad_url_return_empty () {
+	public void shouldReturnEmptyListWhenBadUrl() {
 		String url = "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=randomstring";
 
 		InputStream inputStream = get(url);
-		List<FxRate> list = parse(inputStream);
+		List<FxRate> list = parseFxRatesFrom(inputStream);
 
 		list.forEach(System.out::println);
 		assertEquals(0, list.size());
 	}
 
+	@Test
+	public void shouldFailParsingWhenEmptyUrl() {
+		String url = "";
+
+		InputStream inputStream = get(url);
+
+		NullPointerException exception = assertThrows(NullPointerException.class, () -> parseFxRatesFrom(inputStream));
+		assertEquals("InputStream of fx rates is null", exception.getMessage());
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenResponseCannotBeParsedToFxRates() {
+		String url = "https://www.google.com";
+
+		InputStream inputStream = get(url);
+		List<FxRate> list = parseFxRatesFrom(inputStream);
+
+		list.forEach(System.out::println);
+		assertEquals(0, list.size());
+	}
 }

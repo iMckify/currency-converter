@@ -6,7 +6,6 @@ import com.lbapp.LBcalc.services.ConverterService;
 import com.lbapp.LBcalc.services.ForexService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +20,14 @@ import java.util.List;
 public class ForexController {
     public static final Logger logger = LoggerFactory.getLogger(ForexController.class);
 
-    @Autowired
-    private ForexService forexService;
+    private final ForexService forexService;
 
-    @Autowired
-    private ConverterService converterService;
+    private final ConverterService converterService;
+
+    public ForexController(ForexService forexService, ConverterService converterService) {
+        this.forexService = forexService;
+        this.converterService = converterService;
+    }
 
     @GetMapping("/current")
     public List<CurrentFxRate> getLastPrices(){

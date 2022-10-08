@@ -13,7 +13,6 @@ import java.math.RoundingMode;
 public class ConverterService {
     public static final Logger logger = LoggerFactory.getLogger(ConverterService.class);
 
-//    @Autowired
     private CurrentFxRatesRepo currentFxRatesRepo;
 
     public ConverterService(CurrentFxRatesRepo currentFxRatesRepo) {

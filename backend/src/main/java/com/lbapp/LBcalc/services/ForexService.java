@@ -10,7 +10,6 @@ import com.lbapp.LBcalc.models.HistoryFxRate;
 import com.lbapp.LBcalc.repos.CurrentFxRatesRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -31,14 +30,13 @@ import java.util.stream.Collectors;
 public class ForexService {
     public static final Logger logger = LoggerFactory.getLogger(ForexService.class);
 
-    @Autowired
-    private LBcalc.PropsConfig propsConfig;
+    private final LBcalc.PropsConfig propsConfig;
 
-    private CurrentFxRatesRepo currentFxRatesRepo;
+    private final CurrentFxRatesRepo currentFxRatesRepo;
 
-    @Autowired
-    public ForexService(CurrentFxRatesRepo repo) {
-        this.currentFxRatesRepo = repo;
+    public ForexService(LBcalc.PropsConfig propsConfig, CurrentFxRatesRepo currentFxRatesRepo) {
+        this.propsConfig = propsConfig;
+        this.currentFxRatesRepo = currentFxRatesRepo;
     }
 
     public List<CurrentFxRate> getAllCurrent() {

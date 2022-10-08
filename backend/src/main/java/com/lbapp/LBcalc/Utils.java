@@ -1,13 +1,5 @@
 package com.lbapp.LBcalc;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -19,17 +11,6 @@ import java.util.TimeZone;
 
 public class Utils {
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-    public static String GET(HttpGet req) throws IOException {
-        try (CloseableHttpClient client = HttpClients.createMinimal()) {
-            try (CloseableHttpResponse response = client.execute(req)) {
-                String resp = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-                return resp;
-            }
-        } catch (IOException e) {
-            throw e;
-        }
-    }
 
     public static Date longToDate(long timestamp) {
         int len = String.valueOf(timestamp).length();

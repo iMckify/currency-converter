@@ -8,11 +8,6 @@ import com.lbapp.LBcalc.models.CurrentFxRate;
 import com.lbapp.LBcalc.models.FxRate;
 import com.lbapp.LBcalc.models.HistoryFxRate;
 import com.lbapp.LBcalc.repos.CurrentFxRatesRepo;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +17,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +90,7 @@ public class ForexService {
 
 //        return getFxRates(url);
 
-        InputStream inputStream = get(String.valueOf(url));
+        InputStream inputStream = get(url);
         List<FxRate> rates = parse(inputStream);
 
         List<HistoryFxRate> mapped = rates.stream().map(fx -> {
@@ -117,7 +115,7 @@ public class ForexService {
     }
 
     private List<CurrentFxRate> getFxRates(URL url) {
-        InputStream inputStream = get(String.valueOf(url));
+        InputStream inputStream = get(url);
         List<FxRate> rates = parse(inputStream);
 
         List<CurrentFxRate> mapped = rates.stream().map(fx -> {
@@ -153,17 +151,19 @@ public class ForexService {
         return new URL(urlStr);
     }
 
-    private InputStream get(String url) {
+    private InputStream get(URL url) {
         InputStream inputStream = null;
         try {
-            CloseableHttpClient client = HttpClients.createMinimal();
-            HttpUriRequest request = new HttpGet(url);
-            request.setHeader("Content-type", "application/xml");
-            CloseableHttpResponse response = client.execute(request);
-            inputStream = response.getEntity().getContent();
 //            String content = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8); // use to get LB errors
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(url.toURI())
+                    .setHeader("Content-type", "application/xml")
+                    .GET()
+                    .build();
 
 //            int code = response.getStatusLine().getStatusCode();
+            HttpResponse<InputStream> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofInputStream());
+            inputStream = response.body();
         } catch (Exception e) {
             logger.error(Arrays.toString(e.getStackTrace()));
         }

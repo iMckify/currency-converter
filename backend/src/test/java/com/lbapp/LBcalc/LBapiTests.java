@@ -5,16 +5,15 @@ import ch.qos.logback.classic.Logger;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.lbapp.LBcalc.models.FxRate;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,14 +34,18 @@ public class LBapiTests {
 	private InputStream get(String url) {
 		InputStream inputStream = null;
 		try {
-			CloseableHttpClient client = HttpClients.createMinimal();
-			HttpUriRequest request = new HttpGet(url);
-			request.setHeader("Content-type", "application/xml");
-			CloseableHttpResponse response = client.execute(request);
-			inputStream = response.getEntity().getContent();
+			HttpRequest request = HttpRequest
+					.newBuilder()
+					.uri(new URI(url))
+					.setHeader("Content-type", "application/xml")
+					.GET()
+					.build();
 
-			int code = response.getStatusLine().getStatusCode();
-			assertEquals(200 , code);
+			HttpResponse<InputStream> response = HttpClient
+					.newBuilder()
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofInputStream());
+			inputStream = response.body();
 		} catch (Exception e) {
 			logger.error(Arrays.toString(e.getStackTrace()));
 		}

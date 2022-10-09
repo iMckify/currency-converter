@@ -1,5 +1,10 @@
 # Lietuvos Bankas currency converter
 
+todo more tests
+todo remove same methods in LbApiTest and ForexService
+todo upgrade ForexService (argument checks, variable refactoring, db lock)
+todo dockerize service
+
 ## Steps to start project in **Linux**:
 1. install java 8 and node ^v16.13.2 with npm ^8.1.2
 2. cd currency-converter

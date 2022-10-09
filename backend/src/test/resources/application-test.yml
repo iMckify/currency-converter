@@ -15,21 +15,10 @@ spring:
     hibernate:
       ddl-auto: create-drop # none forbids Hibernate to manage DB. Structure and data must be imported from scripts
 
-  h2:
-    console:
-      enabled: true
-
-  # for remote access change server.address from localhost to 0.0.0.0
-server:
-  address: 0.0.0.0
-  port: 8080
-  error:
-    include-message: always
-
   # external APIs
 api:
   lb:
     forex: [
-        "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu",
-        "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getFxRatesForCurrency?tp=EU&ccy={0}&dtFrom={1}&dtTo={2}"
+      "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getCurrentFxRates?tp=eu",
+      "https://www.lb.lt/webservices/FxRates/FxRates.asmx/getFxRatesForCurrency?tp=EU&ccy={0}&dtFrom={1}&dtTo={2}"
     ]

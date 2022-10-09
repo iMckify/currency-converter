@@ -1,15 +1,13 @@
 package com.lbapp.LBcalc.adapters;
 
 import com.lbapp.LBcalc.services.ForexService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class ForexAdapter {
-    public static final Logger logger = LoggerFactory.getLogger(ForexAdapter.class);
-
     private final ForexService forexService;
 
     public ForexAdapter(ForexService forexService) {
@@ -18,7 +16,7 @@ public class ForexAdapter {
 
     @Scheduled(fixedDelay = 24 * 60 * 60 * 1000)
     private void updateFxRates() {
-        logger.info("Executing scheduled task {}()", new Object() {
+        log.info("Executing scheduled task {}()", new Object() {
         }.getClass().getEnclosingMethod().getName());
 
         this.forexService.updateFxRates();

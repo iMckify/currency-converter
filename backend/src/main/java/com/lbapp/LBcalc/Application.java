@@ -15,25 +15,26 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 @EnableScheduling
 @EnableConfigurationProperties
 @EnableJpaRepositories(basePackages = "com.lbapp.LBcalc.repos")
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-public class LBcalc {
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LBcalc.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Component
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public class CorsFilter implements Filter {
 
-		public void init(FilterConfig filterConfig) {} // not needed
+		public void init(FilterConfig filterConfig) {
+		} // not needed
 
 		public void destroy() {} // not needed
 
@@ -57,11 +58,13 @@ public class LBcalc {
 	}
 
 	@Component
-	@ConfigurationProperties(prefix="api.lb")
+	@ConfigurationProperties(prefix = "api.lb")
 	public class PropsConfig {
 
-		private List<URL> forex = new ArrayList<>();
+		private List<URI> forex = new ArrayList<>();
 
-		public List<URL> getForex() { return this.forex; }
+		public List<URI> getForex() {
+			return this.forex;
+		}
 	}
 }

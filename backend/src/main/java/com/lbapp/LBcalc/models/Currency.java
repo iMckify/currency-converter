@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrentFxRate {
+public class Currency implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
@@ -21,4 +21,13 @@ public class CurrentFxRate {
 
     @Column(name = "value", precision = 16, scale = 8)
     private BigDecimal value;
+
+    @Override
+    public Currency clone() {
+        try {
+            return (Currency) super.clone();
+        } catch (CloneNotSupportedException ignored) {
+            return new Currency(this.getID(), this.getSymbol(), this.getValue());
+        }
+    }
 }

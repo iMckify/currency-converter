@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import static java.util.concurrent.TimeUnit.HOURS;
+
 @Slf4j
 @Component
 public class ForexAdapter {
@@ -14,11 +16,11 @@ public class ForexAdapter {
         this.forexService = forexService;
     }
 
-    @Scheduled(fixedDelay = 24 * 60 * 60 * 1000)
+    @Scheduled(timeUnit = HOURS, fixedDelay = 24)
     private void updateFxRates() {
         log.info("Executing scheduled task {}()", new Object() {
         }.getClass().getEnclosingMethod().getName());
 
-        this.forexService.updateFxRates();
+        this.forexService.updateCurrenciesWithLiveExchangeRates();
     }
 }

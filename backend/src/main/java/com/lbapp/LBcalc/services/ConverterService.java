@@ -1,6 +1,6 @@
 package com.lbapp.LBcalc.services;
 
-import com.lbapp.LBcalc.repos.CurrentFxRatesRepo;
+import com.lbapp.LBcalc.repos.CurrencyRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @Service
 public class ConverterService {
-    private final CurrentFxRatesRepo currentFxRatesRepo;
+    private final CurrencyRepo currencyRepo;
 
-    public ConverterService(CurrentFxRatesRepo currentFxRatesRepo) {
-        this.currentFxRatesRepo = currentFxRatesRepo;
+    public ConverterService(CurrencyRepo currencyRepo) {
+        this.currencyRepo = currencyRepo;
     }
 
     // https://sdw.ecb.europa.eu/curConverter.do working converter
@@ -57,7 +57,7 @@ public class ConverterService {
         if (symbol.equals("EUR")) {
             return ONE;
         }
-        return this.currentFxRatesRepo.findBySymbolContains(symbol)
+        return this.currencyRepo.findBySymbolContains(symbol)
                 .orElseThrow(() -> new NullPointerException("Symbol can not be null"))
                 .getValue();
     }

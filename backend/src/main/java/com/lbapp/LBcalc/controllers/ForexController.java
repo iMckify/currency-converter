@@ -1,7 +1,7 @@
 package com.lbapp.LBcalc.controllers;
 
-import com.lbapp.LBcalc.models.CurrentFxRate;
-import com.lbapp.LBcalc.models.HistoryFxRate;
+import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.models.PriceHistorical;
 import com.lbapp.LBcalc.services.ConverterService;
 import com.lbapp.LBcalc.services.ForexService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,17 +26,17 @@ public class ForexController {
     }
 
     @GetMapping("/current")
-    public List<CurrentFxRate> getLastPrices(){
-        return this.forexService.getAllCurrent();
+    public List<Currency> getLastPrices() {
+        return this.forexService.getAllCurrencies();
     }
 
     @GetMapping("/history/{symbol}/{dateFrom}/{dateTo}")
-    public List<HistoryFxRate> getPriceHistory(
+    public List<PriceHistorical> getPriceHistory(
             @PathVariable(value = "symbol") String symbol,
             @PathVariable(value = "dateFrom") String dateFrom,
             @PathVariable(value = "dateTo") String dateTo
     ) {
-        return this.forexService.getRatesHistory(symbol, dateFrom, dateTo);
+        return this.forexService.getHistoricalFxRates(symbol, dateFrom, dateTo);
     }
 
     @GetMapping("/convert/{symbolFrom}/{symbolTo}/{amount}")
@@ -44,7 +44,7 @@ public class ForexController {
             @PathVariable(value = "symbolFrom") String symbolFrom,
             @PathVariable(value = "symbolTo") String symbolTo,
             @PathVariable(value = "amount") BigDecimal amount
-    ){
+    ) {
         return this.converterService.convertAPI(symbolFrom, symbolTo, amount);
     }
 }

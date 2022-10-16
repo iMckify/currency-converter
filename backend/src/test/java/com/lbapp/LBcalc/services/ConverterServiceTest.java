@@ -1,14 +1,19 @@
 package com.lbapp.LBcalc.services;
 
-import com.lbapp.LBcalc.models.CurrentFxRate;
-import com.lbapp.LBcalc.repos.CurrentFxRatesRepo;
+import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.repos.CurrencyRepo;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,13 +23,14 @@ import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 import static java.util.Optional.of;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.lenient;
 
 
 @ExtendWith(MockitoExtension.class)
+@SpringJUnitConfig(ConverterService.class)
 class ConverterServiceTest {
+
 	private final Map<String, BigDecimal> CURRENCIES = Map.of(
 			"EUR", ONE,
 			"USD", valueOf(1.0521),
@@ -35,22 +41,21 @@ class ConverterServiceTest {
 			"FKE", valueOf(0.025)
 	);
 
-	@Mock
-	private CurrentFxRatesRepo repo;
+	@MockBean
+	private CurrencyRepo repo;
 
+	@Autowired
 	private ConverterService converter;
 
 	@BeforeEach
 	void mockRepo() {
-		converter = new ConverterService(repo);
-
-		List<CurrentFxRate> data = CURRENCIES
+		List<Currency> data = CURRENCIES
 				.entrySet()
 				.stream()
-				.map(this::createCurrentFxRateFrom)
+				.map(this::createCurrencyFrom)
 				.toList();
-		data.forEach(currentFxRate -> {
-			lenient().when(repo.findBySymbolContains(currentFxRate.getSymbol())).thenReturn(of(currentFxRate));
+		data.forEach(currency -> {
+			lenient().when(repo.findBySymbolContains(currency.getSymbol())).thenReturn(of(currency));
 		});
 
 		lenient().when(repo.findAll()).thenReturn(data);
@@ -205,74 +210,17 @@ class ConverterServiceTest {
 		assertThat(expected, Matchers.comparesEqualTo(actual));
 	}
 
-	@Test
-	public void shouldFailConvertWhenCurrencyNotFound() {
+	@ParameterizedTest
+	@MethodSource("provideFailingTestArguments")
+	public void shouldFailConvertWhenFromOrToParametersAreBad(String from, String to) {
 		BigDecimal quantity = valueOf(68230);
-		String from = "bad";
-		String to = "FKE";
 
 		NullPointerException thrown = assertThrows(
 				NullPointerException.class,
 				() -> converter.convertAPI(from, to, quantity)
 		);
 
-		assertEquals("Symbol can not be null", thrown.getMessage());
-	}
-
-	@Test
-	public void shouldFailConvertWhenInputCurrencyBlank() {
-		BigDecimal quantity = valueOf(68230);
-		String from = "";
-		String to = "FKE";
-
-		NullPointerException thrown = assertThrows(
-				NullPointerException.class,
-				() -> converter.convertAPI(from, to, quantity)
-		);
-
-		assertEquals("Symbol can not be blank", thrown.getMessage());
-	}
-
-	@Test
-	public void shouldFailConvertWhenOutputCurrencyBlank() {
-		BigDecimal quantity = valueOf(68230);
-		String from = "FKE";
-		String to = "";
-
-		NullPointerException thrown = assertThrows(
-				NullPointerException.class,
-				() -> converter.convertAPI(from, to, quantity)
-		);
-
-		assertEquals("Symbol can not be blank", thrown.getMessage());
-	}
-
-	@Test
-	public void shouldFailConvertWhenInputCurrencyNull() {
-		BigDecimal quantity = valueOf(68230);
-		String from = "FKE";
-		String to = null;
-
-		NullPointerException thrown = assertThrows(
-				NullPointerException.class,
-				() -> converter.convertAPI(from, to, quantity)
-		);
-
-		assertEquals("Symbol can not be null", thrown.getMessage());
-	}
-
-	@Test
-	public void shouldFailConvertWhenOutputCurrencyNull() {
-		BigDecimal quantity = valueOf(68230);
-		String from = "FKE";
-		String to = null;
-
-		NullPointerException thrown = assertThrows(
-				NullPointerException.class,
-				() -> converter.convertAPI(from, to, quantity)
-		);
-
-		assertEquals("Symbol can not be null", thrown.getMessage());
+		assertTrue(thrown.getMessage().startsWith("Symbol can not be"));
 	}
 
 	@Test
@@ -302,7 +250,18 @@ class ConverterServiceTest {
 		assertEquals("Amount can not be null", thrown.getMessage());
 	}
 
-	private CurrentFxRate createCurrentFxRateFrom(Map.Entry<String, BigDecimal> entry) {
-		return new CurrentFxRate(null, entry.getKey(), entry.getValue());
+	private Currency createCurrencyFrom(Map.Entry<String, BigDecimal> entry) {
+		return new Currency(null, entry.getKey(), entry.getValue());
+	}
+
+	private static List<Arguments> provideFailingTestArguments() {
+		return List.of(
+				Arguments.of("bad", "FKE"),
+				Arguments.of("FKE", "bad"),
+				Arguments.of(null, "FKE"),
+				Arguments.of("FKE", null),
+				Arguments.of("", "FKE"),
+				Arguments.of("FKE", "")
+		);
 	}
 }

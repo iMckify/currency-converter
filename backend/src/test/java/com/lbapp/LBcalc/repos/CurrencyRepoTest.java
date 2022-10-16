@@ -1,6 +1,6 @@
 package com.lbapp.LBcalc.repos;
 
-import com.lbapp.LBcalc.models.CurrentFxRate;
+import com.lbapp.LBcalc.models.Currency;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
-class CurrentFxRatesRepoTest {
+class CurrencyRepoTest {
 	@Autowired
-	private CurrentFxRatesRepo repo;
+	private CurrencyRepo repo;
 
-	private final CurrentFxRate BTC = new CurrentFxRate(1, "BTC", new BigDecimal("6977.0896569209"));
+	private final Currency BTC = new Currency(1, "BTC", new BigDecimal("6977.0896569209"));
 
 	@BeforeEach
 	void seedRepo() {
@@ -38,10 +38,10 @@ class CurrentFxRatesRepoTest {
 	@Test
 	public void shouldFindAll() {
 		// given
-		List<CurrentFxRate> expected = List.of(BTC);
+		List<Currency> expected = List.of(BTC);
 
 		// when
-		List<CurrentFxRate> actual = this.repo.findAll();
+		List<Currency> actual = this.repo.findAll();
 
 		// then
 		assertEquals(expected, actual);

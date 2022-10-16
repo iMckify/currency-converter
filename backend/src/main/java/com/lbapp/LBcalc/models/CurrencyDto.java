@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 @Data
 @ToString
-public class CcyAmt {
+public class CurrencyDto {
     @JsonProperty("Ccy")
-    private String currency;
+    private String isoCode;
     @JsonProperty("Amt")
     private BigDecimal amount;
 }

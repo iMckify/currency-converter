@@ -2,7 +2,8 @@
 
 todo more tests
 todo remove same methods in LbApiTest and ForexService
-todo upgrade ForexService (argument checks, variable refactoring, db lock)
+todo validate currencyPair size with spring validation
+todo db lock ForexService
 todo dockerize service
 
 ## Steps to start project in **Linux**:

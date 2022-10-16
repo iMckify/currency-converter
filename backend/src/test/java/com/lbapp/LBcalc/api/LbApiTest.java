@@ -1,8 +1,9 @@
 package com.lbapp.LBcalc.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.lbapp.LBcalc.models.FxRate;
+import com.lbapp.LBcalc.models.FxRateDto;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LbApiTest {
-	private static List<FxRate> fxRates;
+	private static List<FxRateDto> fxRates;
 
 	@AfterAll
 	public static void printFxRates() {
@@ -39,6 +40,7 @@ public class LbApiTest {
 
 		// then
 		assertTrue(fxRates.size() > 0);
+		assertTrue(fxRates.stream().allMatch(fxRateDto -> fxRateDto.getCurrencyPairs().size() == 2));
 	}
 
 	@Test
@@ -101,7 +103,34 @@ public class LbApiTest {
 		assertTrue(fxRates.isEmpty());
 	}
 
-	private List<FxRate> getFxRatesFrom(String url) {
+	@Test
+	public void shouldNotFailWhenDeserializing3Pairs() throws JsonProcessingException {
+		String json = """
+			<FxRates xmlns="http://www.lb.lt/WebServices/FxRates">
+				<FxRate>
+				    <Tp>EU</Tp>
+				    <Dt>2022-10-14</Dt>
+				    <CcyAmt>
+				      <Ccy>EUR</Ccy>
+				      <Amt>1</Amt>
+				    </CcyAmt>
+				    <CcyAmt>
+				      <Ccy>AUD</Ccy>
+				      <Amt>1.5493</Amt>
+				    </CcyAmt>
+				    <CcyAmt>
+				      <Ccy>CAD</Ccy>
+				      <Amt>1.1111</Amt>
+				    </CcyAmt>
+				  </FxRate>
+				</FxRates>
+				""";
+		List<FxRateDto> rates = new XmlMapper().readValue(json, new TypeReference<List<FxRateDto>>() {
+		});
+		assertTrue(rates.get(0).getCurrencyPairs().size() == 3);
+	}
+
+	private List<FxRateDto> getFxRatesFrom(String url) {
 		InputStream inputStream = getFrom(url);
 		return parseFxRatesFrom(inputStream);
 	}
@@ -127,11 +156,13 @@ public class LbApiTest {
 		return inputStream;
 	}
 
-	private List<FxRate> parseFxRatesFrom(InputStream inputStream) {
+	private List<FxRateDto> parseFxRatesFrom(InputStream inputStream) {
 		requireNonNull(inputStream, "InputStream of fx rates can not be null");
 		try {
-			return new XmlMapper().readValue(inputStream, new TypeReference<List<FxRate>>() {});
-		} catch (Exception ignored) {}
+			return new XmlMapper().readValue(inputStream, new TypeReference<List<FxRateDto>>() {
+			});
+		} catch (Exception ignored) {
+		}
 		return List.of();
 	}
 }

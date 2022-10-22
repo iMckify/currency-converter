@@ -88,7 +88,7 @@ class ConverterWindow extends React.Component {
 		e.preventDefault()
 
 		CrudApi.getAll(
-			`Forex/convert/${symbolFrom.symbol}/${symbolTo.symbol}/${amount}`
+			`Converter/${symbolFrom.symbol}/${symbolTo.symbol}/${amount}`
 		)
 			.then((result) => {
 				this.setState({ result })

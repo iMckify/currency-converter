@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -22,10 +24,13 @@ import java.util.stream.Collectors;
 import static java.math.BigDecimal.valueOf;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@ComponentScan({"com.lbapp.LBcalc"})
 public class CurrencyUpdaterServiceTest {
 
     private final Map<String, BigDecimal> CURRENCIES = Map.of(

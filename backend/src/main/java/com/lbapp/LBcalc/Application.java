@@ -15,9 +15,15 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Optional.ofNullable;
 
 @EnableScheduling
 @EnableConfigurationProperties
@@ -61,10 +67,32 @@ public class Application {
 	@ConfigurationProperties(prefix = "api.lb")
 	public class PropsConfig {
 
-		private List<URI> forex = new ArrayList<>();
+		private URI current;
 
-		public List<URI> getForex() {
-			return this.forex;
+		private String history;
+
+		public URI getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(URI current) {
+			this.current = current;
+		}
+
+		public URI getHistory(String symbol, String dateFrom, String dateTo) {
+			URI uri = null;
+			try {
+				String url = MessageFormat.format(history, symbol, dateFrom, dateTo);
+				uri = new URL(url).toURI();
+			} catch (NullPointerException | IllegalArgumentException formatException) {
+			} catch (URISyntaxException | MalformedURLException ignored) {
+			}
+			return ofNullable(uri)
+					.orElseThrow(() -> new IllegalStateException("Forex data provider unreachable."));
+		}
+
+		public void setHistory(String history) {
+			this.history = history;
 		}
 	}
 }

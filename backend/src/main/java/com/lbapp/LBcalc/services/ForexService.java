@@ -45,7 +45,7 @@ public class ForexService {
     }
 
     public void updateCurrenciesWithLiveExchangeRates() {
-        URI liveRatesUri = propsConfig.getForex().get(0);
+        URI liveRatesUri = propsConfig.getCurrent();
 
         List<Currency> liveRates = getFxRates(liveRatesUri);
 
@@ -84,13 +84,7 @@ public class ForexService {
     }
 
     public List<PriceHistorical> getHistoricalFxRates(String symbol, String dateFrom, String dateTo) {
-        URI historicalRatesAgainstEurUri = propsConfig.getForex().get(1);
-        try {
-            historicalRatesAgainstEurUri = formatUrl(historicalRatesAgainstEurUri, symbol, dateFrom, dateTo);
-        } catch (URISyntaxException e) {
-            return List.of();
-        }
-
+        URI historicalRatesAgainstEurUri = propsConfig.getHistory(symbol, dateFrom, dateTo);
         return getFxRatesFrom(historicalRatesAgainstEurUri).stream()
                 .map(PriceHistoricalTransformer::transformAgainstEurFrom)
                 .filter(Objects::nonNull)

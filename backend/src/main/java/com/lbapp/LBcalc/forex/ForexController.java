@@ -1,9 +1,8 @@
-package com.lbapp.LBcalc.controllers;
+package com.lbapp.LBcalc.forex;
 
-import com.lbapp.LBcalc.services.ForexService;
 import com.lbapp.LBcalc.currency.CurrencyService;
-import com.lbapp.LBcalc.models.Currency;
-import com.lbapp.LBcalc.models.PriceHistorical;
+import com.lbapp.LBcalc.currency.models.Currency;
+import com.lbapp.LBcalc.forex.models.PriceHistorical;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

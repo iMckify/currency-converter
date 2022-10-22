@@ -1,10 +1,8 @@
-package com.lbapp.LBcalc.services;
+package com.lbapp.LBcalc.currency;
 
 import com.lbapp.LBcalc.Application.PropsConfig;
-import com.lbapp.LBcalc.adapters.CurrencyUpdaterService;
-import com.lbapp.LBcalc.adapters.ForexAdapter;
-import com.lbapp.LBcalc.currency.CurrencyService;
-import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.currency.models.Currency;
+import com.lbapp.LBcalc.forex.ForexAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

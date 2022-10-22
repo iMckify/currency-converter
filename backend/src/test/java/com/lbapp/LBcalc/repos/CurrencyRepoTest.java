@@ -1,6 +1,6 @@
 package com.lbapp.LBcalc.repos;
 
-import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.currency.models.Currency;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

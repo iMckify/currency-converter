@@ -1,6 +1,6 @@
 package com.lbapp.LBcalc.currency;
 
-import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.currency.models.Currency;
 import com.lbapp.LBcalc.repos.CurrencyRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

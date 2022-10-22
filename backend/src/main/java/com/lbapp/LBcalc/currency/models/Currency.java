@@ -1,4 +1,4 @@
-package com.lbapp.LBcalc.models;
+package com.lbapp.LBcalc.currency.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.lbapp.LBcalc.adapters;
+package com.lbapp.LBcalc.currency;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

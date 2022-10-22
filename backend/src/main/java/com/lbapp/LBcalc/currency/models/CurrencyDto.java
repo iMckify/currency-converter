@@ -1,4 +1,4 @@
-package com.lbapp.LBcalc.models;
+package com.lbapp.LBcalc.currency.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

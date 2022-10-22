@@ -1,9 +1,8 @@
-package com.lbapp.LBcalc.adapters;
+package com.lbapp.LBcalc.currency;
 
-import com.lbapp.LBcalc.Application;
-import com.lbapp.LBcalc.CurrencyTransformer;
-import com.lbapp.LBcalc.currency.CurrencyService;
-import com.lbapp.LBcalc.models.Currency;
+import com.lbapp.LBcalc.Application.PropsConfig;
+import com.lbapp.LBcalc.currency.models.Currency;
+import com.lbapp.LBcalc.forex.ForexAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,13 @@ import static java.math.RoundingMode.FLOOR;
 @Service
 public class CurrencyUpdaterService {
 
-    private final Application.PropsConfig propsConfig;
+    private final PropsConfig propsConfig;
 
     private final CurrencyService currencyService;
 
     private final ForexAdapter forexAdapter;
 
-    public CurrencyUpdaterService(Application.PropsConfig propsConfig, CurrencyService currencyService, ForexAdapter forexAdapter) {
+    public CurrencyUpdaterService(PropsConfig propsConfig, CurrencyService currencyService, ForexAdapter forexAdapter) {
         this.propsConfig = propsConfig;
         this.currencyService = currencyService;
         this.forexAdapter = forexAdapter;

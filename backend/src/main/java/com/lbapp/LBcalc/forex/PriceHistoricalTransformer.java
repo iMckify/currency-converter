@@ -1,8 +1,8 @@
-package com.lbapp.LBcalc;
+package com.lbapp.LBcalc.forex;
 
-import com.lbapp.LBcalc.models.CurrencyDto;
-import com.lbapp.LBcalc.models.FxRateDto;
-import com.lbapp.LBcalc.models.PriceHistorical;
+import com.lbapp.LBcalc.currency.models.CurrencyDto;
+import com.lbapp.LBcalc.forex.models.FxRateDto;
+import com.lbapp.LBcalc.forex.models.PriceHistorical;
 
 import java.util.List;
 

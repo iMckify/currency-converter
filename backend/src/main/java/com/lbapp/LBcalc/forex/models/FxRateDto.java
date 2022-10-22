@@ -1,7 +1,8 @@
-package com.lbapp.LBcalc.models;
+package com.lbapp.LBcalc.forex.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.lbapp.LBcalc.currency.models.CurrencyDto;
 import lombok.Data;
 import lombok.ToString;
 

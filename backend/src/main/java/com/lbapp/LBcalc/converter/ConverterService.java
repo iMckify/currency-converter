@@ -1,4 +1,4 @@
-package com.lbapp.LBcalc.services;
+package com.lbapp.LBcalc.converter;
 
 import com.lbapp.LBcalc.repos.CurrencyRepo;
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,10 @@
 # Lietuvos Bankas currency converter
 
 todo more tests
-todo remove same methods in LbApiTest and ForexService
 todo validate currencyPair size with spring validation
 todo db lock ForexService
 todo dockerize service
+todo exception messages for prop urls and else
 
 ## Steps to start project in **Linux**:
 1. install java 8 and node ^v16.13.2 with npm ^8.1.2

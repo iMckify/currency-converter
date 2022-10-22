@@ -1,8 +1,10 @@
 package com.lbapp.LBcalc.services;
 
 import com.lbapp.LBcalc.Application.PropsConfig;
+import com.lbapp.LBcalc.adapters.CurrencyUpdaterService;
+import com.lbapp.LBcalc.adapters.ForexAdapter;
+import com.lbapp.LBcalc.currency.CurrencyService;
 import com.lbapp.LBcalc.models.Currency;
-import com.lbapp.LBcalc.repos.CurrencyRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
-public class ForexServiceTest {
+public class CurrencyUpdaterServiceTest {
 
     private final Map<String, BigDecimal> CURRENCIES = Map.of(
             "EURUSD", valueOf(0.971700),
@@ -33,16 +35,19 @@ public class ForexServiceTest {
     );
 
     @Autowired
-    private CurrencyRepo repo;
-
-    @Autowired
     private PropsConfig propsConfig;
 
-    private ForexService service;
+    @Autowired
+    private CurrencyService currencyService;
+
+    @Autowired
+    private ForexAdapter forexAdapter;
+
+    private CurrencyUpdaterService currencyUpdaterService;
 
     @BeforeEach
     void mockRepo() {
-        service = new ForexService(propsConfig, repo);
+        currencyUpdaterService = new CurrencyUpdaterService(propsConfig, currencyService, forexAdapter);
 
         List<Currency> data = CURRENCIES
                 .entrySet()
@@ -50,19 +55,19 @@ public class ForexServiceTest {
                 .map(this::createCurrencyFrom)
                 .toList();
 
-        repo.saveAll(data);
+        currencyService.saveCurrencies(data);
     }
 
     @Test
     public void shouldUpdateCurrenciesWithLiveExchangeRates() {
         // given
-        List<Currency> initial = service.getAllCurrencies();
+        List<Currency> initial = currencyService.getAllCurrencies();
 
         // when
-        service.updateCurrenciesWithLiveExchangeRates();
+        currencyUpdaterService.updateCurrenciesWithLiveExchangeRates();
 
         // then
-        List<Currency> updated = service.getAllCurrencies();
+        List<Currency> updated = currencyService.getAllCurrencies();
         assertNotEquals(initial, updated, "Currencies have not been updated");
         assertThatSomeUpdatedIdsDifferFromInitial(initial, updated);
     }

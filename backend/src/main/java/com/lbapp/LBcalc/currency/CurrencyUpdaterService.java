@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static java.math.RoundingMode.FLOOR;
@@ -25,10 +24,18 @@ public class CurrencyUpdaterService {
 
     private final ForexAdapter forexAdapter;
 
-    public CurrencyUpdaterService(PropsConfig propsConfig, CurrencyService currencyService, ForexAdapter forexAdapter) {
+    private final CurrencyTransformer transformer;
+
+    public CurrencyUpdaterService(
+            PropsConfig propsConfig,
+            CurrencyService currencyService,
+            ForexAdapter forexAdapter,
+            CurrencyTransformer currencyTransformer
+    ) {
         this.propsConfig = propsConfig;
         this.currencyService = currencyService;
         this.forexAdapter = forexAdapter;
+        this.transformer = currencyTransformer;
     }
 
     public void updateCurrenciesWithLiveExchangeRates() {
@@ -65,15 +72,14 @@ public class CurrencyUpdaterService {
 
         if (!toSave.isEmpty()) {
             currencyService.deleteCurrencies(toDelete);
-            toSave = toSave.stream().map(CurrencyTransformer::transformScale).toList();
+            toSave = toSave.stream().map(transformer::transformScale).toList();
             currencyService.saveCurrencies(toSave);
         }
     }
 
     private List<Currency> getFxRates(URI uri) {
         return forexAdapter.getFxRatesFrom(uri).stream()
-                .map(CurrencyTransformer::transformAgainstEurFrom)
-                .filter(Objects::nonNull)
+                .map(transformer::transformAgainstEurFrom)
                 .toList();
     }
 }

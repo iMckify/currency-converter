@@ -14,7 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 
 @ActiveProfiles("test")
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @ComponentScan({"com.lbapp.LBcalc"})
 class CurrencyRepoTest {
+
 	@Autowired
 	private CurrencyRepo repo;
 
@@ -46,6 +48,6 @@ class CurrencyRepoTest {
 		List<Currency> actual = this.repo.findAll();
 
 		// then
-		assertEquals(expected, actual);
+		assertThat(expected, equalTo(actual));
 	}
 }

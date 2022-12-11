@@ -3,37 +3,51 @@ package com.lbapp.LBcalc.forex;
 import com.lbapp.LBcalc.currency.models.CurrencyDto;
 import com.lbapp.LBcalc.forex.models.FxRateDto;
 import com.lbapp.LBcalc.forex.models.PriceHistorical;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Predicate;
 
+import static java.lang.String.format;
 import static java.math.BigDecimal.ZERO;
-import static java.util.Objects.nonNull;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+import static java.util.function.Predicate.not;
 
+@Component
 public class PriceHistoricalTransformer {
 
-    public static PriceHistorical transformAgainstEurFrom(FxRateDto dto) {
+    public PriceHistorical transformAgainstEurFrom(FxRateDto dto) {
         PriceHistorical historicalRate = new PriceHistorical();
 
-        List<CurrencyDto> currencyPairs = dto.getCurrencyPairs();
-        if (currencyPairs.size() != 2) {
-            return null;
+        List<CurrencyDto> currencyEntries = dto.getCurrencyEntries();
+        if (currencyEntries.size() != 2) {
+            throw new IllegalStateException(format("Invalid size of currencies: %s", currencyEntries.size()));
         }
 
         historicalRate.setDate(dto.getDate());
-        historicalRate.setValue(currencyPairs.get(currencyPairs.size() - 1).getAmount());
+        CurrencyDto lastCurrency = currencyEntries.get(currencyEntries.size() - 1);
+        historicalRate.setRate(lastCurrency.getAmount());
 
-        if (!hasDate(historicalRate) || !hasValidRate(historicalRate)) {
-            return null;
-        }
-
-        return historicalRate;
+        return getHistoricalRateOrFail(historicalRate);
     }
 
-    private static boolean hasDate(PriceHistorical priceHistorical) {
-        return nonNull(priceHistorical.getDate()) && !priceHistorical.getDate().isBlank();
+    private PriceHistorical getHistoricalRateOrFail(PriceHistorical historicalRate) {
+        return of(historicalRate)
+                .filter(hasDate())
+                .filter(hasPositiveRate())
+                .orElseThrow(() -> new IllegalStateException("Failed to transform fx rate"));
     }
 
-    private static boolean hasValidRate(PriceHistorical priceHistorical) {
-        return nonNull(priceHistorical.getValue()) && priceHistorical.getValue().compareTo(ZERO) > 0;
+    private Predicate<PriceHistorical> hasDate() {
+        return priceHistorical -> ofNullable(priceHistorical.getDate())
+                .filter(not(String::isBlank))
+                .isPresent();
+    }
+
+    private Predicate<PriceHistorical> hasPositiveRate() {
+        return priceHistorical -> ofNullable(priceHistorical.getRate())
+                .filter(value -> value.compareTo(ZERO) > 0)
+                .isPresent();
     }
 }

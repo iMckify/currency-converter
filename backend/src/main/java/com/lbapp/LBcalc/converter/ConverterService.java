@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.MathContext.DECIMAL64;
@@ -25,12 +24,12 @@ public class ConverterService {
     // 100 USD to AUD
     // 100 / 1.0521 EUR/USD * 1.5254 EUR/AUD = 140.6366314989069000
     // input / first * second
-    public BigDecimal convertAPI(String symbolSelected, String symbolTarget, BigDecimal input) {
+    public BigDecimal convert(String symbolSelected, String symbolTarget, BigDecimal input) {
         BigDecimal firstRate = getPrice(symbolSelected);
         BigDecimal secondRate = getPrice(symbolTarget);
 
         log.info("Converting " + symbolSelected + "/" + symbolTarget);
-        return convertBigDec(firstRate, secondRate, input);
+        return convert(firstRate, secondRate, input);
     }
 
     // https://keisan.casio.com/calculator checked with settings: mode Real RAD, digits 18, answer standard, accuracy on
@@ -38,8 +37,8 @@ public class ConverterService {
     //  1)  division is FLOOR, so 17th digit is ignored and dropped
     //  2)  multiplication is DECIMAL64, so 17th digit is ignored and dropped
     // In conclusion, casino wins amount of 17th digit each time
-    private BigDecimal convertBigDec(BigDecimal firstRate, BigDecimal secondRate, BigDecimal amount) {
-        Objects.requireNonNull(amount, "Amount can not be null");
+    private BigDecimal convert(BigDecimal firstRate, BigDecimal secondRate, BigDecimal amount) {
+        requireNonNull(amount, "Amount can not be null");
         log.info("firstRate:  " + firstRate);
         log.info("secondRate: " + secondRate);
         BigDecimal result = amount

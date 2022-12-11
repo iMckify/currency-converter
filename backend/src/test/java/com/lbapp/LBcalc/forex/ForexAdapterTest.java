@@ -45,7 +45,7 @@ public class ForexAdapterTest {
 
         // then
         assertTrue(fxRates.size() > 0);
-        assertTrue(fxRates.stream().allMatch(fxRateDto -> fxRateDto.getCurrencyPairs().size() == 2));
+        assertTrue(fxRates.stream().allMatch(fxRateDto -> fxRateDto.getCurrencyEntries().size() == 2));
     }
 
     @Test
@@ -108,28 +108,28 @@ public class ForexAdapterTest {
     @Test
     public void shouldNotFailWhenDeserializing3Pairs() throws JsonProcessingException {
         String json = """
-                <FxRates xmlns="http://www.lb.lt/WebServices/FxRates">
-                	<FxRate>
-                	    <Tp>EU</Tp>
-                	    <Dt>2022-10-14</Dt>
-                	    <CcyAmt>
-                	      <Ccy>EUR</Ccy>
-                	      <Amt>1</Amt>
-                	    </CcyAmt>
-                	    <CcyAmt>
-                	      <Ccy>AUD</Ccy>
-                	      <Amt>1.5493</Amt>
-                	    </CcyAmt>
-                	    <CcyAmt>
-                	      <Ccy>CAD</Ccy>
-                	      <Amt>1.1111</Amt>
-                	    </CcyAmt>
-                	  </FxRate>
-                	</FxRates>
-                	""";
+                    <FxRates xmlns="http://www.lb.lt/WebServices/FxRates">
+                        <FxRate>
+                            <Tp>EU</Tp>
+                            <Dt>2022-10-14</Dt>
+                            <CcyAmt>
+                              <Ccy>EUR</Ccy>
+                              <Amt>1</Amt>
+                            </CcyAmt>
+                            <CcyAmt>
+                              <Ccy>AUD</Ccy>
+                              <Amt>1.5493</Amt>
+                            </CcyAmt>
+                            <CcyAmt>
+                              <Ccy>CAD</Ccy>
+                              <Amt>1.1111</Amt>
+                            </CcyAmt>
+                          </FxRate>
+                    </FxRates>
+                """;
         List<FxRateDto> rates = new XmlMapper().readValue(json, new TypeReference<List<FxRateDto>>() {
         });
-        assertTrue(rates.get(0).getCurrencyPairs().size() == 3);
+        assertEquals(3, rates.get(0).getCurrencyEntries().size());
     }
 
     private List<FxRateDto> getFxRatesFrom(String url) throws MalformedURLException, URISyntaxException {

@@ -15,5 +15,5 @@ public class PriceHistorical {
     private String date;
 
     @Column(name = "value", precision = 16, scale = 8)
-    private BigDecimal value;
+    private BigDecimal rate;
 }

@@ -22,5 +22,5 @@ public class FxRateDto {
 
     @JsonProperty("CcyAmt")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<CurrencyDto> currencyPairs = new ArrayList<>();
+    private List<CurrencyDto> currencyEntries = new ArrayList<>();
 }

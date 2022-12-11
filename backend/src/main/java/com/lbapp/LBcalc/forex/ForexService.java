@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -17,17 +16,19 @@ public class ForexService {
 
     private final ForexAdapter forexAdapter;
 
-    public ForexService(PropsConfig propsConfig, ForexAdapter forexAdapter) {
+    private final PriceHistoricalTransformer transformer;
+
+    public ForexService(PropsConfig propsConfig, ForexAdapter forexAdapter, PriceHistoricalTransformer transformer) {
         this.propsConfig = propsConfig;
         this.forexAdapter = forexAdapter;
+        this.transformer = transformer;
     }
 
     public List<PriceHistorical> getHistoricalFxRates(String symbol, String dateFrom, String dateTo) {
         URI historicalRatesAgainstEurUri = propsConfig.getHistory(symbol, dateFrom, dateTo);
 
         return forexAdapter.getFxRatesFrom(historicalRatesAgainstEurUri).stream()
-                .map(PriceHistoricalTransformer::transformAgainstEurFrom)
-                .filter(Objects::nonNull)
+                .map(transformer::transformAgainstEurFrom)
                 .toList();
     }
 }

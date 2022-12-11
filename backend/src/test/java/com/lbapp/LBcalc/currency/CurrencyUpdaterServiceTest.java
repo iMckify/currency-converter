@@ -46,11 +46,14 @@ public class CurrencyUpdaterServiceTest {
     @Autowired
     private ForexAdapter forexAdapter;
 
+    @Autowired
+    private CurrencyTransformer transformer;
+
     private CurrencyUpdaterService currencyUpdaterService;
 
     @BeforeEach
     void mockRepo() {
-        currencyUpdaterService = new CurrencyUpdaterService(propsConfig, currencyService, forexAdapter);
+        currencyUpdaterService = new CurrencyUpdaterService(propsConfig, currencyService, forexAdapter, transformer);
 
         List<Currency> data = CURRENCIES
                 .entrySet()

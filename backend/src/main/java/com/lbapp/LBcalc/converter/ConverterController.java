@@ -23,6 +23,6 @@ public class ConverterController {
             @PathVariable(value = "symbolTo") String symbolTo,
             @PathVariable(value = "amount") BigDecimal amount
     ) {
-        return converterService.convertAPI(symbolFrom, symbolTo, amount);
+        return converterService.convert(symbolFrom, symbolTo, amount);
     }
 }

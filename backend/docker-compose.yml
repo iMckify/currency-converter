@@ -6,7 +6,7 @@ services:
     image: imckify/currency-web-app:latest
     platform: "linux/amd64"
     build:
-      context: ./
+      context: https://imckify:${GITHUB_SECRET:-YOUR_GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/iMckify/${REPO:-currency-converter}.git#${BRANCH:-main}:${APP:-backend}
       dockerfile: ./Dockerfile
       args:
         github_secret: ${GITHUB_SECRET:-YOUR_GITHUB_PERSONAL_ACCESS_TOKEN}

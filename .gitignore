@@ -1,5 +1,4 @@
 # Project exclude paths
-/backend/.mvn/
 
 ### IntelliJ IDEA ###
 .idea
